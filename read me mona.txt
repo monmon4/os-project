@@ -1,0 +1,7 @@
+Please insert your changes in my OS : form.cs or any design file you work on.
+My vs is 2010 it can't open a sln that is in a later edition :( but can open files.
+Sorry. 
+
+If you have a more simple idea please share.
+
+Yours truely M.
