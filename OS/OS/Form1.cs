@@ -11,14 +11,19 @@ namespace OS
 {
     public partial class Form1 : Form
     {
+        Processes processes;
+        int i;
+
         public Form1()
         {
             InitializeComponent();
+            processes = new Processes();
+            i = 0;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+             
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -26,60 +31,85 @@ namespace OS
 
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
 
+        private void sjf_CheckedChanged(object sender, EventArgs e)
+        {
+            if (sjf.Checked)
+            {
+                subtype.Enabled = true;
+            }
+           
         }
 
-        private void textBox5_TextChanged(object sender, EventArgs e)
+        private void fcfs_CheckedChanged(object sender, EventArgs e)
         {
+            if (fcfs.Checked)
+            {
+                subtype.Enabled = false;
+            }
+        }
+
+        private void priority_CheckedChanged(object sender, EventArgs e)
+        {
+            if (priority.Checked)
+            {
+                subtype.Enabled = true;
+            }
+        }
+
+        private void rr_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rr.Checked)
+            {
+                subtype.Enabled = false;
+            }
+        }
+
+        private void add_Click(object sender, EventArgs e)
+        {
+            Process process = new Process(name.Text, Int32.Parse(arrive.Text), Int32.Parse(burst.Text), Int32.Parse(prio.Text));
+            processes.add_process(process);
+            i++;
+           
+            // Loop through and add 50 items to the ListBox.
+        
+               
+                string[] arr = new string[5]; 
+                ListViewItem itm; 
+                 arr[0] = i.ToString();
+                 arr[1] = name.Text;
+                 arr[2] = arrive.Text;
+                 arr[3] = burst.Text;
+                 arr[4] = prio.Text;
+                itm = new ListViewItem(arr); 
+                listView1.Items.Add(itm);
+
             
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            string x="   " + textBox1.Text + "   ";
-            string y = "|";
-            string m = "       ";
-            int z = 0;
-            int time = z+(int)(numericUpDown1.Value) + (int)(numericUpDown2.Value);
-            textBox2.AppendText(Convert.ToString(z);
-            textBox2.AppendText(m);
-            textBox2.AppendText(Convert.ToString(time));
-            textBox5.AppendText(x);               
-            textBox5.AppendText(y);
-            
-                
-             
-        }
-
-        private void groupBox5_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gantt_chart_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void start_Click(object sender, EventArgs e)
+        {
+            string x="   " + name.Text + "   ";
+            string y = "|";
+            string m = "       ";
+            int z = 0;
+            int time = z+Int32.Parse(arrive.Text) + Int32.Parse(burst.Text);
+            textBox2.AppendText(Convert.ToString(z));
+            textBox2.AppendText(m);
+            textBox2.AppendText(Convert.ToString(time));
+            gantt_chart.AppendText(x);               
+            gantt_chart.AppendText(y);
+        }
     }
 }
-/*string x = "  " + process_name.Text + "  ";
-            string y = "|";
-            int time = 0 + Convert.ToInt32(burst.Text) + Convert.ToInt32(arrival_time.Text);
-            // if (process)
-            {
-                for (int i = 0; i < (int)(numericUpDown1.Value); i++)
-                {
-
-                    textBox5.AppendText(x);
-                }
-            }
-            //else
-            {
-                textBox5.AppendText(y);
-                textBox5.AppendText(Convert.ToString(time));
-            }
- */

@@ -1,14 +1,16 @@
-D:\OS project\os-project\OS\OS\bin\Debug\OS.exe
-D:\OS project\os-project\OS\OS\bin\Debug\OS.pdb
-D:\OS project\os-project\OS\OS\obj\x86\Debug\OS.Form1.resources
-D:\OS project\os-project\OS\OS\obj\x86\Debug\OS.Properties.Resources.resources
-D:\OS project\os-project\OS\OS\obj\x86\Debug\OS.csproj.GenerateResource.Cache
-D:\OS project\os-project\OS\OS\obj\x86\Debug\OS.exe
-D:\OS project\os-project\OS\OS\obj\x86\Debug\OS.pdb
-D:\os-project\OS\OS\obj\x86\Debug\OS.exe
-D:\os-project\OS\OS\obj\x86\Debug\OS.pdb
-D:\os-project\OS\OS\bin\Debug\OS.exe
-D:\os-project\OS\OS\bin\Debug\OS.pdb
-D:\os-project\OS\OS\obj\x86\Debug\OS.Form1.resources
-D:\os-project\OS\OS\obj\x86\Debug\OS.Properties.Resources.resources
-D:\os-project\OS\OS\obj\x86\Debug\OS.csproj.GenerateResource.Cache
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\os project\OS\OS\obj\x86\Debug\OS.csprojResolveAssemblyReference.cache
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\os project\OS\OS\obj\x86\Debug\OS.Form1.resources
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\os project\OS\OS\obj\x86\Debug\OS.Properties.Resources.resources
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\os project\OS\OS\obj\x86\Debug\OS.csproj.GenerateResource.Cache
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\os project\OS\OS\bin\Debug\OS.exe
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\os project\OS\OS\bin\Debug\OS.pdb
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\os project\OS\OS\obj\x86\Debug\OS.exe
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\os project\OS\OS\obj\x86\Debug\OS.pdb
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project\OS\OS\obj\x86\Debug\OS.exe
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project\OS\OS\obj\x86\Debug\OS.pdb
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project\OS\OS\bin\Debug\OS.exe
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project\OS\OS\bin\Debug\OS.pdb
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project\OS\OS\obj\x86\Debug\OS.csprojResolveAssemblyReference.cache
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project\OS\OS\obj\x86\Debug\OS.Form1.resources
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project\OS\OS\obj\x86\Debug\OS.Properties.Resources.resources
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project\OS\OS\obj\x86\Debug\OS.csproj.GenerateResource.Cache
