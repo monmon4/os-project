@@ -53,11 +53,11 @@
             this.stop = new System.Windows.Forms.Button();
             this.start = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.gantt_chart = new System.Windows.Forms.TextBox();
             this.fcfs = new System.Windows.Forms.RadioButton();
             this.type = new System.Windows.Forms.GroupBox();
             this.subtype = new System.Windows.Forms.GroupBox();
-            this.gantt_chart = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.info.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -288,6 +288,26 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "groupBox5";
             // 
+            // textBox2
+            // 
+            this.textBox2.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox2.Enabled = false;
+            this.textBox2.Location = new System.Drawing.Point(18, 60);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(504, 13);
+            this.textBox2.TabIndex = 1;
+            // 
+            // gantt_chart
+            // 
+            this.gantt_chart.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.gantt_chart.Enabled = false;
+            this.gantt_chart.Location = new System.Drawing.Point(18, 34);
+            this.gantt_chart.Name = "gantt_chart";
+            this.gantt_chart.Size = new System.Drawing.Size(504, 20);
+            this.gantt_chart.TabIndex = 0;
+            this.gantt_chart.TextChanged += new System.EventHandler(this.gantt_chart_TextChanged);
+            // 
             // fcfs
             // 
             this.fcfs.AutoSize = true;
@@ -324,24 +344,6 @@
             this.subtype.TabIndex = 14;
             this.subtype.TabStop = false;
             this.subtype.Text = "Preemptivety";
-            // 
-            // gantt_chart
-            // 
-            this.gantt_chart.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.gantt_chart.Location = new System.Drawing.Point(18, 34);
-            this.gantt_chart.Name = "gantt_chart";
-            this.gantt_chart.Size = new System.Drawing.Size(504, 20);
-            this.gantt_chart.TabIndex = 0;
-            this.gantt_chart.TextChanged += new System.EventHandler(this.gantt_chart_TextChanged);
-            // 
-            // textBox2
-            // 
-            this.textBox2.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Location = new System.Drawing.Point(18, 60);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 13);
-            this.textBox2.TabIndex = 1;
             // 
             // Form1
             // 
