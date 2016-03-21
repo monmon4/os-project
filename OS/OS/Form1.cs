@@ -30,5 +30,30 @@ namespace OS
         {
 
         }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string x="       ";
+            string y = "|";
+            int time=5;
+            bool process=true;
+           // if (process)
+            {       for (int i = 0; i < time; i++)
+                {
+                    
+                    textBox5.AppendText(x);
+                }
+            }
+            //else
+            {
+                textBox5.AppendText(y);
+                textBox5.AppendText(Convert.ToString(time));
+            }
+        }
     }
 }

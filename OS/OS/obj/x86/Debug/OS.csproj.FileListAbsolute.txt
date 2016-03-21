@@ -1,0 +1,7 @@
+D:\OS project\os-project\OS\OS\bin\Debug\OS.exe
+D:\OS project\os-project\OS\OS\bin\Debug\OS.pdb
+D:\OS project\os-project\OS\OS\obj\x86\Debug\OS.Form1.resources
+D:\OS project\os-project\OS\OS\obj\x86\Debug\OS.Properties.Resources.resources
+D:\OS project\os-project\OS\OS\obj\x86\Debug\OS.csproj.GenerateResource.Cache
+D:\OS project\os-project\OS\OS\obj\x86\Debug\OS.exe
+D:\OS project\os-project\OS\OS\obj\x86\Debug\OS.pdb

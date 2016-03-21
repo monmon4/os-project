@@ -52,6 +52,7 @@
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.listBox2 = new System.Windows.Forms.ListBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -270,6 +271,7 @@
             this.button2.TabIndex = 1;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // listBox1
             // 
@@ -281,6 +283,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.textBox5);
             this.groupBox5.Controls.Add(this.listBox2);
             this.groupBox5.Location = new System.Drawing.Point(286, 272);
             this.groupBox5.Name = "groupBox5";
@@ -296,6 +299,16 @@
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(550, 43);
             this.listBox2.TabIndex = 0;
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(16, 32);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.ReadOnly = true;
+            this.textBox5.Size = new System.Drawing.Size(538, 20);
+            this.textBox5.TabIndex = 1;
+            this.textBox5.WordWrap = false;
+            this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             // 
             // Form1
             // 
@@ -318,6 +331,7 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -348,6 +362,7 @@
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.TextBox textBox5;
     }
 }
 
