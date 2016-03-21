@@ -100,7 +100,38 @@ namespace OS
 
         private void start_Click(object sender, EventArgs e)
         {
-            string x="   " + name.Text + "   ";
+            gant_info info = new gant_info();
+            if (fcfs.Checked)
+            {
+            }
+            else if (sjf.Checked)
+            {
+            }
+            else if (priority.Checked)
+            {
+            }
+            else if (rr.Checked)
+            {
+               info =  processes.rr(Int32.Parse(q.Text));
+               for (int i = 0; i < info.index.Count(); i++)
+               {
+                   if (info.index[i] != -1)
+                   {
+                       string x = " " + processes.get_process(info.index[i]).get_name() + " ";
+                       string y = "|";
+                       gantt_chart.AppendText(x);
+                       gantt_chart.AppendText(y);
+                   }
+                   string m = "       ";
+                   int z = 0;
+                   int time = info.time[i]  ;
+                   textBox2.AppendText(Convert.ToString(time));
+                   textBox2.AppendText(m);
+                   
+               }
+            }
+
+            /*string x="   " + name.Text + "   ";
             string y = "|";
             string m = "       ";
             int z = 0;
@@ -109,7 +140,7 @@ namespace OS
             textBox2.AppendText(m);
             textBox2.AppendText(Convert.ToString(time));
             gantt_chart.AppendText(x);               
-            gantt_chart.AppendText(y);
+            gantt_chart.AppendText(y);*/
         }
     }
 }

@@ -58,6 +58,8 @@
             this.fcfs = new System.Windows.Forms.RadioButton();
             this.type = new System.Windows.Forms.GroupBox();
             this.subtype = new System.Windows.Forms.GroupBox();
+            this.q = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.info.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -340,16 +342,34 @@
             this.subtype.Enabled = false;
             this.subtype.Location = new System.Drawing.Point(620, 156);
             this.subtype.Name = "subtype";
-            this.subtype.Size = new System.Drawing.Size(200, 89);
+            this.subtype.Size = new System.Drawing.Size(200, 88);
             this.subtype.TabIndex = 14;
             this.subtype.TabStop = false;
             this.subtype.Text = "Preemptivety";
+            // 
+            // q
+            // 
+            this.q.Location = new System.Drawing.Point(620, 284);
+            this.q.Name = "q";
+            this.q.Size = new System.Drawing.Size(100, 20);
+            this.q.TabIndex = 15;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(620, 265);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(51, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "Quantam";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(882, 475);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.q);
             this.Controls.Add(this.subtype);
             this.Controls.Add(this.stop);
             this.Controls.Add(this.type);
@@ -370,6 +390,7 @@
             this.subtype.ResumeLayout(false);
             this.subtype.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -405,6 +426,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.TextBox gantt_chart;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox q;
+        private System.Windows.Forms.Label label1;
     }
 }
 
