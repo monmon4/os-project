@@ -38,14 +38,42 @@ namespace OS
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string x="       ";
+            string x="   " + textBox1.Text + "   ";
             string y = "|";
-            int time=5;
-            bool process=true;
-           // if (process)
-            {       for (int i = 0; i < time; i++)
+            string m = "       ";
+            int z = 0;
+            int time = z+(int)(numericUpDown1.Value) + (int)(numericUpDown2.Value);
+            textBox2.AppendText(Convert.ToString(z);
+            textBox2.AppendText(m);
+            textBox2.AppendText(Convert.ToString(time));
+            textBox5.AppendText(x);               
+            textBox5.AppendText(y);
+            
+                
+             
+        }
+
+        private void groupBox5_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        
+    }
+}
+/*string x = "  " + process_name.Text + "  ";
+            string y = "|";
+            int time = 0 + Convert.ToInt32(burst.Text) + Convert.ToInt32(arrival_time.Text);
+            // if (process)
+            {
+                for (int i = 0; i < (int)(numericUpDown1.Value); i++)
                 {
-                    
+
                     textBox5.AppendText(x);
                 }
             }
@@ -54,6 +82,4 @@ namespace OS
                 textBox5.AppendText(y);
                 textBox5.AppendText(Convert.ToString(time));
             }
-        }
-    }
-}
+ */
