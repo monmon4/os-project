@@ -128,9 +128,10 @@ namespace OS
                 {
                     if (sorted_arrive.IndexOf(j) == -1 && all[j].get_arrive() < all[index].get_arrive())
                         index = j;
+                    else if (sorted_arrive.IndexOf(j) == -1 && sorted_arrive.IndexOf(index) != -1)
+                        index = j;
                 }
                 sorted_arrive.Add(index);
-               index = ( index == all.Count()-1) ? index - 1: index+1;
             }
         }
         /*private int get_least_arrival()
@@ -178,6 +179,12 @@ namespace OS
             {
                 index = get_next(time);
                 time_list.Add(time);
+                if (index == -2)
+                {
+                    time = all[sorted_arrive[0]].get_arrive();
+                    index_list.Add(-2);
+                    continue;
+                }
                 index_list.Add(index);
                 if (index == -1) break;
                 int x = all[index].excute(q);

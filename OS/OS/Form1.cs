@@ -115,13 +115,19 @@ namespace OS
                info =  processes.rr(Int32.Parse(q.Text));
                for (int i = 0; i < info.index.Count(); i++)
                {
-                   if (info.index[i] != -1)
+                   if (info.index[i] == -2)
+                   {
+                       gantt_chart.AppendText("     ");
+                       gantt_chart.AppendText("|");
+                   }
+                   else if (info.index[i] != -1)
                    {
                        string x = " " + processes.get_process(info.index[i]).get_name() + " ";
                        string y = "|";
                        gantt_chart.AppendText(x);
                        gantt_chart.AppendText(y);
                    }
+                   
                    string m = "       ";
                    int z = 0;
                    int time = info.time[i]  ;
