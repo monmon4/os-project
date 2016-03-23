@@ -252,6 +252,116 @@ namespace OS
             
 
         }
+
+        public void gantt_process1(string name,int arrive,int burst,TextBox box2,TextBox gantt)
+        {
+            string x = "   " + name + "   ";
+            string y = "|";
+            string s = ".";
+            string ss = name;
+            for (int i = 0; i < ss.Length; i++)
+            {
+                s = s + ".";
+            }
+
+            string m = "   " + s + "   ";
+            int time = 0;
+            //process1
+            if (arrive == 0)
+            {
+                time = 0;
+                box2.AppendText(Convert.ToString(0));
+                box2.AppendText(m);
+                time = time + burst;//last time+burst  //new time
+                box2.AppendText(Convert.ToString(time));
+                gantt.AppendText(x);
+                gantt.AppendText(y);
+
+            }
+
+            else if (arrive != 0)
+            {
+                time = arrive;
+                box2.AppendText(Convert.ToString(0)); // no process time
+                box2.AppendText("     ");
+                gantt.AppendText("     ");
+                gantt.AppendText(y);
+
+                box2.AppendText(Convert.ToString(time)); // process arrived
+                box2.AppendText(m);
+                time = time + burst;
+                box2.AppendText(Convert.ToString(time));
+                gantt.AppendText(x);
+                gantt.AppendText(y);
+
+            }
+        }
+        public int get_time_p1(int arrive, int burst)
+        {
+            int time=0;
+            if (arrive == 0)
+            {
+                time = burst;
+            }
+            else if (arrive != 0)
+            {
+                time = arrive + burst;
+            }
+
+            return time;
+        }
+
+        public void gantt_the_rest_processes(string name,int arrive,int burst,int time,TextBox box2,TextBox gantt)
+        {
+            string y = "|";
+            string x = "   " + name + "   ";
+            string s = ".";
+            string ss = name;
+            for (int j = 0; j < ss.Length; j++)
+            {
+                s = s + ".";
+            }
+            string m = "   " + s + "   ";
+            if (arrive < time) // time da bta3 el process elly ablha 
+            {
+                box2.AppendText(m);
+                time = time + burst;//last time+burst  //new time
+                box2.AppendText(Convert.ToString(time));
+                gantt.AppendText(x);
+                gantt.AppendText(y);
+
+            }
+            else if (arrive > time)
+            {
+                time = arrive;
+                 // no process time
+                box2.AppendText("  ..  ");
+                gantt.AppendText("      ");
+                gantt.AppendText(y);
+
+                box2.AppendText(Convert.ToString(time)); // process arrived
+                box2.AppendText(m);
+                time = time + burst;
+                box2.AppendText(Convert.ToString(time));
+                gantt.AppendText(x);
+                gantt.AppendText(y);
+
+            }
+        }
+
+        public int get_time(int arrive, int burst, int time)
+        {
+            if (arrive < time) // time da bta3 el process elly ablha 
+            {
+                time = time + burst;
+            }
+            else if (arrive > time)
+            {
+                time = arrive+burst;
+            }
+            return time;
+        }
+
         public gant_info rr(int q)
         {
             sort();
