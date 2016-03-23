@@ -36,6 +36,7 @@
             this.nonpreem = new System.Windows.Forms.RadioButton();
             this.preem = new System.Windows.Forms.RadioButton();
             this.info = new System.Windows.Forms.GroupBox();
+            this.warning = new System.Windows.Forms.Label();
             this.prio = new System.Windows.Forms.TextBox();
             this.burst = new System.Windows.Forms.TextBox();
             this.arrive = new System.Windows.Forms.TextBox();
@@ -50,9 +51,10 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.stop = new System.Windows.Forms.Button();
             this.start = new System.Windows.Forms.Button();
+            this.stop = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.equations = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.gantt_chart = new System.Windows.Forms.TextBox();
             this.fcfs = new System.Windows.Forms.RadioButton();
@@ -60,6 +62,10 @@
             this.subtype = new System.Windows.Forms.GroupBox();
             this.q = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.processes_count = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.info.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -69,7 +75,7 @@
             // 
             // add
             // 
-            this.add.Location = new System.Drawing.Point(447, 33);
+            this.add.Location = new System.Drawing.Point(447, 51);
             this.add.Name = "add";
             this.add.Size = new System.Drawing.Size(75, 23);
             this.add.TabIndex = 0;
@@ -79,7 +85,7 @@
             // 
             // name
             // 
-            this.name.Location = new System.Drawing.Point(9, 60);
+            this.name.Location = new System.Drawing.Point(9, 51);
             this.name.Name = "name";
             this.name.Size = new System.Drawing.Size(57, 20);
             this.name.TabIndex = 1;
@@ -87,7 +93,7 @@
             // sjf
             // 
             this.sjf.AutoSize = true;
-            this.sjf.Location = new System.Drawing.Point(6, 51);
+            this.sjf.Location = new System.Drawing.Point(74, 28);
             this.sjf.Name = "sjf";
             this.sjf.Size = new System.Drawing.Size(42, 17);
             this.sjf.TabIndex = 8;
@@ -99,7 +105,7 @@
             // rr
             // 
             this.rr.AutoSize = true;
-            this.rr.Location = new System.Drawing.Point(6, 97);
+            this.rr.Location = new System.Drawing.Point(230, 28);
             this.rr.Name = "rr";
             this.rr.Size = new System.Drawing.Size(39, 17);
             this.rr.TabIndex = 10;
@@ -111,7 +117,7 @@
             // priority
             // 
             this.priority.AutoSize = true;
-            this.priority.Location = new System.Drawing.Point(6, 74);
+            this.priority.Location = new System.Drawing.Point(146, 28);
             this.priority.Name = "priority";
             this.priority.Size = new System.Drawing.Size(59, 17);
             this.priority.TabIndex = 9;
@@ -139,10 +145,14 @@
             this.preem.TabIndex = 11;
             this.preem.Text = "Preemptive";
             this.preem.UseVisualStyleBackColor = true;
+            this.preem.CheckedChanged += new System.EventHandler(this.preem_CheckedChanged);
             // 
             // info
             // 
+            this.info.Controls.Add(this.label1);
+            this.info.Controls.Add(this.warning);
             this.info.Controls.Add(this.prio);
+            this.info.Controls.Add(this.q);
             this.info.Controls.Add(this.burst);
             this.info.Controls.Add(this.arrive);
             this.info.Controls.Add(this.prior);
@@ -151,38 +161,47 @@
             this.info.Controls.Add(this.name);
             this.info.Controls.Add(this.arrive_time);
             this.info.Controls.Add(this.add);
-            this.info.Location = new System.Drawing.Point(23, 16);
+            this.info.Location = new System.Drawing.Point(23, 113);
             this.info.Name = "info";
-            this.info.Size = new System.Drawing.Size(538, 96);
+            this.info.Size = new System.Drawing.Size(538, 100);
             this.info.TabIndex = 4;
             this.info.TabStop = false;
             this.info.Text = "Process info";
             // 
+            // warning
+            // 
+            this.warning.AutoSize = true;
+            this.warning.Location = new System.Drawing.Point(127, 76);
+            this.warning.Name = "warning";
+            this.warning.Size = new System.Drawing.Size(0, 13);
+            this.warning.TabIndex = 13;
+            // 
             // prio
             // 
-            this.prio.Location = new System.Drawing.Point(332, 60);
+            this.prio.Location = new System.Drawing.Point(258, 51);
             this.prio.Name = "prio";
             this.prio.Size = new System.Drawing.Size(57, 20);
             this.prio.TabIndex = 12;
             // 
             // burst
             // 
-            this.burst.Location = new System.Drawing.Point(213, 60);
+            this.burst.Location = new System.Drawing.Point(169, 51);
             this.burst.Name = "burst";
             this.burst.Size = new System.Drawing.Size(57, 20);
             this.burst.TabIndex = 11;
             // 
             // arrive
             // 
-            this.arrive.Location = new System.Drawing.Point(115, 60);
+            this.arrive.Location = new System.Drawing.Point(87, 51);
             this.arrive.Name = "arrive";
             this.arrive.Size = new System.Drawing.Size(57, 20);
             this.arrive.TabIndex = 10;
+            this.arrive.TextChanged += new System.EventHandler(this.arrive_TextChanged);
             // 
             // prior
             // 
             this.prior.AutoSize = true;
-            this.prior.Location = new System.Drawing.Point(338, 38);
+            this.prior.Location = new System.Drawing.Point(261, 28);
             this.prior.Name = "prior";
             this.prior.Size = new System.Drawing.Size(41, 13);
             this.prior.TabIndex = 9;
@@ -191,7 +210,7 @@
             // proocess
             // 
             this.proocess.AutoSize = true;
-            this.proocess.Location = new System.Drawing.Point(3, 38);
+            this.proocess.Location = new System.Drawing.Point(6, 28);
             this.proocess.Name = "proocess";
             this.proocess.Size = new System.Drawing.Size(73, 13);
             this.proocess.TabIndex = 6;
@@ -200,7 +219,7 @@
             // burst_time
             // 
             this.burst_time.AutoSize = true;
-            this.burst_time.Location = new System.Drawing.Point(222, 38);
+            this.burst_time.Location = new System.Drawing.Point(183, 28);
             this.burst_time.Name = "burst_time";
             this.burst_time.Size = new System.Drawing.Size(32, 13);
             this.burst_time.TabIndex = 8;
@@ -209,7 +228,7 @@
             // arrive_time
             // 
             this.arrive_time.AutoSize = true;
-            this.arrive_time.Location = new System.Drawing.Point(112, 38);
+            this.arrive_time.Location = new System.Drawing.Point(85, 28);
             this.arrive_time.Name = "arrive_time";
             this.arrive_time.Size = new System.Drawing.Size(61, 13);
             this.arrive_time.TabIndex = 7;
@@ -218,12 +237,13 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.listView1);
-            this.groupBox4.Location = new System.Drawing.Point(23, 118);
+            this.groupBox4.Controls.Add(this.start);
+            this.groupBox4.Controls.Add(this.stop);
+            this.groupBox4.Location = new System.Drawing.Point(23, 219);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(538, 177);
+            this.groupBox4.Size = new System.Drawing.Size(538, 196);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "groupBox4";
             // 
             // listView1
             // 
@@ -260,18 +280,9 @@
             // 
             this.columnHeader5.Text = "priority";
             // 
-            // stop
-            // 
-            this.stop.Location = new System.Drawing.Point(745, 440);
-            this.stop.Name = "stop";
-            this.stop.Size = new System.Drawing.Size(75, 23);
-            this.stop.TabIndex = 1;
-            this.stop.Text = "Stop";
-            this.stop.UseVisualStyleBackColor = true;
-            // 
             // start
             // 
-            this.start.Location = new System.Drawing.Point(658, 440);
+            this.start.Location = new System.Drawing.Point(430, 38);
             this.start.Name = "start";
             this.start.Size = new System.Drawing.Size(75, 23);
             this.start.TabIndex = 1;
@@ -279,34 +290,57 @@
             this.start.UseVisualStyleBackColor = true;
             this.start.Click += new System.EventHandler(this.start_Click);
             // 
+            // stop
+            // 
+            this.stop.Location = new System.Drawing.Point(430, 126);
+            this.stop.Name = "stop";
+            this.stop.Size = new System.Drawing.Size(75, 23);
+            this.stop.TabIndex = 1;
+            this.stop.Text = "Stop";
+            this.stop.UseVisualStyleBackColor = true;
+            // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.label4);
+            this.groupBox5.Controls.Add(this.label3);
+            this.groupBox5.Controls.Add(this.equations);
             this.groupBox5.Controls.Add(this.textBox2);
             this.groupBox5.Controls.Add(this.gantt_chart);
-            this.groupBox5.Location = new System.Drawing.Point(23, 301);
+            this.groupBox5.Location = new System.Drawing.Point(23, 421);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(538, 171);
+            this.groupBox5.Size = new System.Drawing.Size(538, 124);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "groupBox5";
+            this.groupBox5.Text = "Result";
+            // 
+            // equations
+            // 
+            this.equations.BackColor = System.Drawing.SystemColors.Control;
+            this.equations.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.equations.Location = new System.Drawing.Point(146, 98);
+            this.equations.Name = "equations";
+            this.equations.Size = new System.Drawing.Size(156, 13);
+            this.equations.TabIndex = 2;
             // 
             // textBox2
             // 
             this.textBox2.BackColor = System.Drawing.SystemColors.Control;
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.Enabled = false;
-            this.textBox2.Location = new System.Drawing.Point(18, 60);
+            this.textBox2.Location = new System.Drawing.Point(18, 72);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(504, 13);
             this.textBox2.TabIndex = 1;
             // 
             // gantt_chart
             // 
-            this.gantt_chart.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.gantt_chart.BackColor = System.Drawing.SystemColors.Control;
+            this.gantt_chart.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gantt_chart.Enabled = false;
-            this.gantt_chart.Location = new System.Drawing.Point(18, 34);
+            this.gantt_chart.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.gantt_chart.Location = new System.Drawing.Point(18, 47);
             this.gantt_chart.Name = "gantt_chart";
-            this.gantt_chart.Size = new System.Drawing.Size(504, 20);
+            this.gantt_chart.Size = new System.Drawing.Size(504, 13);
             this.gantt_chart.TabIndex = 0;
             this.gantt_chart.TextChanged += new System.EventHandler(this.gantt_chart_TextChanged);
             // 
@@ -328,9 +362,9 @@
             this.type.Controls.Add(this.sjf);
             this.type.Controls.Add(this.rr);
             this.type.Controls.Add(this.priority);
-            this.type.Location = new System.Drawing.Point(620, 16);
+            this.type.Location = new System.Drawing.Point(23, 12);
             this.type.Name = "type";
-            this.type.Size = new System.Drawing.Size(200, 134);
+            this.type.Size = new System.Drawing.Size(292, 76);
             this.type.TabIndex = 13;
             this.type.TabStop = false;
             this.type.Text = "Scheduling type";
@@ -340,41 +374,74 @@
             this.subtype.Controls.Add(this.preem);
             this.subtype.Controls.Add(this.nonpreem);
             this.subtype.Enabled = false;
-            this.subtype.Location = new System.Drawing.Point(620, 156);
+            this.subtype.Location = new System.Drawing.Point(345, 12);
             this.subtype.Name = "subtype";
-            this.subtype.Size = new System.Drawing.Size(200, 88);
+            this.subtype.Size = new System.Drawing.Size(117, 76);
             this.subtype.TabIndex = 14;
             this.subtype.TabStop = false;
             this.subtype.Text = "Preemptivety";
             // 
             // q
             // 
-            this.q.Location = new System.Drawing.Point(620, 284);
+            this.q.Location = new System.Drawing.Point(347, 51);
             this.q.Name = "q";
-            this.q.Size = new System.Drawing.Size(100, 20);
+            this.q.Size = new System.Drawing.Size(60, 20);
             this.q.TabIndex = 15;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(620, 265);
+            this.label1.Location = new System.Drawing.Point(346, 28);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(51, 13);
             this.label1.TabIndex = 16;
             this.label1.Text = "Quantam";
             // 
+            // processes_count
+            // 
+            this.processes_count.Location = new System.Drawing.Point(492, 40);
+            this.processes_count.Name = "processes_count";
+            this.processes_count.Size = new System.Drawing.Size(53, 20);
+            this.processes_count.TabIndex = 14;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(480, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(88, 13);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "No. of processes";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(218, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(64, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Gantt Chart";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(25, 101);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(119, 13);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Average waiting time =";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(882, 475);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.q);
+            this.ClientSize = new System.Drawing.Size(580, 557);
             this.Controls.Add(this.subtype);
-            this.Controls.Add(this.stop);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.type);
-            this.Controls.Add(this.start);
             this.Controls.Add(this.groupBox5);
+            this.Controls.Add(this.processes_count);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.info);
             this.Name = "Form1";
@@ -428,6 +495,12 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox q;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label warning;
+        private System.Windows.Forms.TextBox equations;
+        private System.Windows.Forms.TextBox processes_count;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
     }
 }
 

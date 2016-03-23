@@ -33,6 +33,20 @@ namespace OS
             set_info(n, a, b, p);
         }
 
+        public Process(string n, int a, int b)
+        {
+            set_info1(n, a, b);
+        }
+
+        public void set_info1(string n, int a, int b)
+        {
+            name = n;
+            arrive = a;
+            burst = b;
+            remaining = burst;
+        }
+        
+
         public void set_info(string n, int a, int b, int p)
         {
             name = n;
@@ -86,6 +100,12 @@ namespace OS
         {
             return name + " " + arrive.ToString() + " " + burst.ToString() + " " + prio.ToString();
         }
+
+        public string get_info1()
+        {
+            return name + " " + arrive.ToString() + " " + burst.ToString();
+        }
+        
     }
 
     //-----------------------------------------------------------------
@@ -97,6 +117,8 @@ namespace OS
         List<int> time_list;
         List<int> sorted_arrive;
         int s;
+        List<Process> sorted_prio;
+        List<Process> sorted_arri;
         
 
         public Processes()
@@ -106,12 +128,16 @@ namespace OS
             time_list = new List<int>();
             sorted_arrive = new List<int>();
             s = 0;
+            sorted_prio = new List<Process>();
+            sorted_arri = new List<Process>();
            
         }
 
         public void add_process(Process process)
         {
             all.Add(process);
+            sorted_prio.Add(process);
+            sorted_arri.Add(process);
         }
         public Process get_process(int i)
         {
@@ -134,6 +160,63 @@ namespace OS
                 sorted_arrive.Add(index);
             }
         }
+
+        public void sort_prio()
+        {
+
+            for (int i = 0; i < sorted_prio.Count() - 1; i++)
+            {
+                int max_prio_index = 0;
+                for (int j = 1; j < sorted_prio.Count() - i; j++) // sorting the max prio in the list 
+                {
+                    if (sorted_prio[j].get_prio() > sorted_prio[max_prio_index].get_prio())
+                    {
+                        max_prio_index = j;
+                    }
+                }
+                Process temp = sorted_prio[sorted_prio.Count() - 1 - i];
+                sorted_prio[sorted_prio.Count() - 1 - i] = sorted_prio[max_prio_index];
+                sorted_prio[max_prio_index] = temp;
+                // sorted_prio.Add(all[j]); // adding process with small prio
+
+
+
+            }
+        }
+        public void sort_arri()
+        {
+
+            for (int i = 0; i < sorted_arri.Count() - 1; i++)
+            {
+                int max_arri_index = 0;
+                for (int j = 1; j < sorted_arri.Count() - i; j++) // sorting the max prio in the list 
+                {
+                    if (sorted_arri[j].get_arrive() > sorted_arri[max_arri_index].get_arrive())
+                    {
+                        max_arri_index = j;
+                    }
+                }
+                Process temp = sorted_arri[sorted_arri.Count() - 1 - i];
+                sorted_arri[sorted_arri.Count() - 1 - i] = sorted_arri[max_arri_index];
+                sorted_arri[max_arri_index] = temp;
+
+
+
+
+            }
+        }
+        public Process get_sorted_prio(int n)
+        {
+            sort_prio();
+            return sorted_prio[n];
+        }
+        public Process get_sorted_arri(int n)
+        {
+            sort_arri();
+            return sorted_arri [n];
+        }
+
+
         /*private int get_least_arrival()
         { 
             int index=0;
@@ -196,6 +279,7 @@ namespace OS
             info.time = time_list;
             return info;
         }
+
     }
 
 
