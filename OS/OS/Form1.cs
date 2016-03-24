@@ -138,104 +138,37 @@ namespace OS
             {
                 processes.gantt_process1(processes.get_sorted_arri(0).get_name(), processes.get_sorted_arri(0).get_arrive(), processes.get_sorted_arri(0).get_burst(), textBox2,gantt_chart);
                time= processes.get_time_p1(processes.get_sorted_arri(0).get_arrive(), processes.get_sorted_arri(0).get_burst());
-               
+               int waiting_time= time - processes.get_sorted_arri(0).get_arrive()- processes.get_sorted_arri(0).get_burst();
                 //the rest
                 for (int i = 1; i < Int32.Parse(processes_count.Text); i++)
                 {
                     processes.gantt_the_rest_processes(processes.get_sorted_arri(i).get_name(), processes.get_sorted_arri(i).get_arrive(), processes.get_sorted_arri(i).get_burst(),time, textBox2, gantt_chart);
                     time = processes.get_time(processes.get_sorted_arri(i).get_arrive(), processes.get_sorted_arri(i).get_burst(), time);
-                                       
+                       waiting_time=waiting_time  + time -processes.get_sorted_arri(i).get_arrive()- processes.get_sorted_arri(i).get_burst() ; 
                 }
+                decimal Avg_WT =(decimal)waiting_time / Convert.ToDecimal(processes_count.Text);
+                equations.AppendText(Convert.ToString(Avg_WT) + "  sec");
             }
             else if (sjf.Checked)
             {
             }
             else if (priority.Checked)
             {
-                string x = "   " + processes.get_sorted_prio(0).get_name() + "   ";
-                string y = "|";
-                string s = ".";
-                string ss;
-
-
                 if (nonpreem.Checked)
                 {
-                    //process1
-                    ss = processes.get_sorted_prio(0).get_name();
-                    for (int i = 0; i < ss.Length; i++)
-                    {
-                        s = s + ".";
-                    }
-
-                    string m = "   " + s + "   ";
-
-                    if (processes.get_sorted_prio(0).get_arrive() == 0)
-                    {
-                        time = 0;
-                        textBox2.AppendText(Convert.ToString(0));
-                        textBox2.AppendText(m);
-                        time = time + processes.get_sorted_prio(0).get_burst();//last time+burst  //new time
-                        textBox2.AppendText(Convert.ToString(time));
-                        gantt_chart.AppendText(x);
-                        gantt_chart.AppendText(y);
-
-                    }
-
-                    else if (processes.get_sorted_prio(0).get_arrive() != 0)
-                    {
-
-                        time = processes.get_sorted_prio(0).get_arrive();
-                        textBox2.AppendText(Convert.ToString(0)); // no process time
-                        textBox2.AppendText("     ");
-                        gantt_chart.AppendText("     ");
-                        gantt_chart.AppendText(y);
-
-                        textBox2.AppendText(Convert.ToString(time)); // process arrived
-                        textBox2.AppendText(m);
-                        time = time + processes.get_sorted_prio(0).get_burst();
-                        textBox2.AppendText(Convert.ToString(time));
-                        gantt_chart.AppendText(x);
-                        gantt_chart.AppendText(y);
-
-                    }
+                    processes.gantt_process1(processes.get_sorted_prio(0).get_name(), processes.get_sorted_prio(0).get_arrive(), processes.get_sorted_prio(0).get_burst(), textBox2, gantt_chart);
+                    time = processes.get_time_p1(processes.get_sorted_prio(0).get_arrive(), processes.get_sorted_prio(0).get_burst());
+                    int waiting_time = time - processes.get_sorted_prio(0).get_arrive() - processes.get_sorted_prio(0).get_burst();
                     //the rest
                     for (int i = 1; i < Int32.Parse(processes_count.Text); i++)
                     {
-                        s = ".";
-                        ss = processes.get_sorted_prio(i).get_name();
-                        for (int j = 0; j < ss.Length; j++)
-                        {
-                            s = s + ".";
-                        }
+                        processes.gantt_the_rest_processes(processes.get_sorted_prio(i).get_name(), processes.get_sorted_prio(i).get_arrive(), processes.get_sorted_prio(i).get_burst(), time, textBox2, gantt_chart);
+                        time = processes.get_time(processes.get_sorted_prio(i).get_arrive(), processes.get_sorted_prio(i).get_burst(), time);
+                        waiting_time = waiting_time + time - processes.get_sorted_prio(0).get_arrive() - processes.get_sorted_prio(0).get_burst();
 
-                        m = "   " + s + "   ";
-                        x = "   " + processes.get_sorted_prio(i).get_name() + "   ";
-                        if (processes.get_sorted_prio(i).get_arrive() < time) // time da bta3 el process elly ablha 
-                        {
-                            textBox2.AppendText(m);
-                            time = time + processes.get_sorted_prio(i).get_burst();//last time+burst  //new time
-                            textBox2.AppendText(Convert.ToString(time));
-                            gantt_chart.AppendText(x);
-                            gantt_chart.AppendText(y);
-
-                        }
-                        else if (processes.get_sorted_prio(i).get_arrive() > time)
-                        {
-                            time = processes.get_sorted_prio(i).get_arrive();
-                            textBox2.AppendText(Convert.ToString(0)); // no process time
-                            textBox2.AppendText("     ");
-                            gantt_chart.AppendText("     ");
-                            gantt_chart.AppendText(y);
-
-                            textBox2.AppendText(Convert.ToString(time)); // process arrived
-                            textBox2.AppendText(m);
-                            time = time + processes.get_sorted_prio(i).get_burst();
-                            textBox2.AppendText(Convert.ToString(time));
-                            gantt_chart.AppendText(x);
-                            gantt_chart.AppendText(y);
-
-                        }
                     }
+                    decimal Avg_WT = (decimal)waiting_time / Convert.ToDecimal(processes_count.Text);
+                    equations.AppendText(Convert.ToString(Avg_WT) + "  sec");
                 }
             }
             else if (rr.Checked)

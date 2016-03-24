@@ -36,8 +36,10 @@
             this.nonpreem = new System.Windows.Forms.RadioButton();
             this.preem = new System.Windows.Forms.RadioButton();
             this.info = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.warning = new System.Windows.Forms.Label();
             this.prio = new System.Windows.Forms.TextBox();
+            this.q = new System.Windows.Forms.TextBox();
             this.burst = new System.Windows.Forms.TextBox();
             this.arrive = new System.Windows.Forms.TextBox();
             this.prior = new System.Windows.Forms.Label();
@@ -54,18 +56,16 @@
             this.start = new System.Windows.Forms.Button();
             this.stop = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.equations = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.gantt_chart = new System.Windows.Forms.TextBox();
             this.fcfs = new System.Windows.Forms.RadioButton();
             this.type = new System.Windows.Forms.GroupBox();
             this.subtype = new System.Windows.Forms.GroupBox();
-            this.q = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.processes_count = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.info.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -168,6 +168,15 @@
             this.info.TabStop = false;
             this.info.Text = "Process info";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(346, 28);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(51, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "Quantam";
+            // 
             // warning
             // 
             this.warning.AutoSize = true;
@@ -182,6 +191,13 @@
             this.prio.Name = "prio";
             this.prio.Size = new System.Drawing.Size(57, 20);
             this.prio.TabIndex = 12;
+            // 
+            // q
+            // 
+            this.q.Location = new System.Drawing.Point(347, 51);
+            this.q.Name = "q";
+            this.q.Size = new System.Drawing.Size(60, 20);
+            this.q.TabIndex = 15;
             // 
             // burst
             // 
@@ -313,13 +329,32 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Result";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(25, 98);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(119, 13);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Average waiting time =";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(218, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(64, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Gantt Chart";
+            // 
             // equations
             // 
             this.equations.BackColor = System.Drawing.SystemColors.Control;
             this.equations.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.equations.Location = new System.Drawing.Point(146, 98);
             this.equations.Name = "equations";
-            this.equations.Size = new System.Drawing.Size(156, 13);
+            this.equations.Size = new System.Drawing.Size(376, 13);
             this.equations.TabIndex = 2;
             // 
             // textBox2
@@ -381,22 +416,6 @@
             this.subtype.TabStop = false;
             this.subtype.Text = "Preemptivety";
             // 
-            // q
-            // 
-            this.q.Location = new System.Drawing.Point(347, 51);
-            this.q.Name = "q";
-            this.q.Size = new System.Drawing.Size(60, 20);
-            this.q.TabIndex = 15;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(346, 28);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 13);
-            this.label1.TabIndex = 16;
-            this.label1.Text = "Quantam";
-            // 
             // processes_count
             // 
             this.processes_count.Location = new System.Drawing.Point(492, 40);
@@ -412,25 +431,6 @@
             this.label2.Size = new System.Drawing.Size(88, 13);
             this.label2.TabIndex = 15;
             this.label2.Text = "No. of processes";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(218, 16);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(64, 13);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Gantt Chart";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(25, 101);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(119, 13);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Average waiting time =";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // Form1
             // 
