@@ -66,6 +66,7 @@
             this.subtype = new System.Windows.Forms.GroupBox();
             this.processes_count = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.done1 = new System.Windows.Forms.Button();
             this.info.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -161,6 +162,7 @@
             this.info.Controls.Add(this.name);
             this.info.Controls.Add(this.arrive_time);
             this.info.Controls.Add(this.add);
+            this.info.Enabled = false;
             this.info.Location = new System.Drawing.Point(23, 113);
             this.info.Name = "info";
             this.info.Size = new System.Drawing.Size(538, 100);
@@ -254,7 +256,10 @@
             // 
             this.groupBox4.Controls.Add(this.listView1);
             this.groupBox4.Controls.Add(this.start);
+            this.groupBox4.Controls.Add(this.label2);
             this.groupBox4.Controls.Add(this.stop);
+            this.groupBox4.Controls.Add(this.processes_count);
+            this.groupBox4.Enabled = false;
             this.groupBox4.Location = new System.Drawing.Point(23, 219);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(538, 196);
@@ -298,7 +303,7 @@
             // 
             // start
             // 
-            this.start.Location = new System.Drawing.Point(430, 38);
+            this.start.Location = new System.Drawing.Point(430, 97);
             this.start.Name = "start";
             this.start.Size = new System.Drawing.Size(75, 23);
             this.start.TabIndex = 1;
@@ -418,7 +423,7 @@
             // 
             // processes_count
             // 
-            this.processes_count.Location = new System.Drawing.Point(492, 40);
+            this.processes_count.Location = new System.Drawing.Point(430, 44);
             this.processes_count.Name = "processes_count";
             this.processes_count.Size = new System.Drawing.Size(53, 20);
             this.processes_count.TabIndex = 14;
@@ -426,22 +431,31 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(480, 12);
+            this.label2.Location = new System.Drawing.Point(417, 28);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(88, 13);
             this.label2.TabIndex = 15;
             this.label2.Text = "No. of processes";
+            // 
+            // done1
+            // 
+            this.done1.Location = new System.Drawing.Point(486, 34);
+            this.done1.Name = "done1";
+            this.done1.Size = new System.Drawing.Size(75, 23);
+            this.done1.TabIndex = 16;
+            this.done1.Text = "Done";
+            this.done1.UseVisualStyleBackColor = true;
+            this.done1.Click += new System.EventHandler(this.done1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(580, 557);
+            this.Controls.Add(this.done1);
             this.Controls.Add(this.subtype);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.type);
             this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.processes_count);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.info);
             this.Name = "Form1";
@@ -450,6 +464,7 @@
             this.info.ResumeLayout(false);
             this.info.PerformLayout();
             this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.type.ResumeLayout(false);
@@ -457,7 +472,6 @@
             this.subtype.ResumeLayout(false);
             this.subtype.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -501,6 +515,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button done1;
     }
 }
 

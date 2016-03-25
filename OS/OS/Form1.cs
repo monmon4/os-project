@@ -31,7 +31,36 @@ namespace OS
 
         }
 
+        private void draw_chart(gant_info info)
+        {
+            int time = 0;
+            for (int i = 0; i < info.index.Count(); i++)
+            {
+                string s = ".";
+                if (info.index[i] == -2)
+                {
+                    gantt_chart.AppendText("     ");
+                    gantt_chart.AppendText("|");
+                }
+                else if (info.index[i] != -1)
+                {
+                    string ss = processes.get_process(info.index[i]).get_name();
+                    string x = " " + ss + " ";
+                    string y = "|";
+                    gantt_chart.AppendText(x);
+                    gantt_chart.AppendText(y);
+                    for (int j = 0; j < ss.Length; j++)
+                    {
+                        s = s + ".";
+                    }
+                }
+                string m = "   " + s + "   ";
+                time = info.time[i];
+                textBox2.AppendText(Convert.ToString(time));
+                textBox2.AppendText(m);
 
+            }
+        }
         private void sjf_CheckedChanged(object sender, EventArgs e)
         {
             if (sjf.Checked)
@@ -151,6 +180,8 @@ namespace OS
             }
             else if (sjf.Checked)
             {
+                info = processes.sjf();
+                draw_chart(info);
             }
             else if (priority.Checked)
             {
@@ -174,34 +205,8 @@ namespace OS
             else if (rr.Checked)
             {
                info =  processes.rr(Int32.Parse(q.Text));
-               for (int i = 0; i < info.index.Count(); i++)
-               {
-
-                   if (info.index[i] == -2)
-                   {
-                       gantt_chart.AppendText("     ");
-                       gantt_chart.AppendText("|");
-                   }
-                   else if (info.index[i] != -1)
-                   {
-                       string x = " " + processes.get_process(info.index[i]).get_name() + " ";
-                       string y = "|";
-                       gantt_chart.AppendText(x);
-                       gantt_chart.AppendText(y);
-                   }
-                   string s = ".";
-                   string ss = processes.get_process(info.index[i]).get_name();
-                   for (int j = 0; j < ss.Length; j++)
-                   {
-                       s = s + ".";
-                   }
-                   string m = "   " + s + "   ";
-                   int z = 0;
-                   time = info.time[i]  ;
-                   textBox2.AppendText(Convert.ToString(time));
-                   textBox2.AppendText(m);
-                   
-               }
+                draw_chart(info);
+               
             }
 
             /*string x="   " + name.Text + "   ";
@@ -223,6 +228,16 @@ namespace OS
 
         private void label4_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void done1_Click(object sender, EventArgs e)
+        {
+            info.Enabled = true;
+            groupBox4.Enabled = true;
+            type.Enabled = false;
+            subtype.Enabled = false;
+            done1.Enabled = false;
 
         }
     }

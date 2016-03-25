@@ -91,6 +91,11 @@ namespace OS
                 return i - time;
             }
         }
+
+        public void excute_all()
+        {
+            remaining = 0;
+        }
         public int get_remaining()
         {
             return remaining;
@@ -159,6 +164,24 @@ namespace OS
                 }
                 sorted_arrive.Add(index);
             }
+        }
+
+        private int get_least(int time)
+        {
+            int index = -1;
+            for (int i = 0; i < all.Count(); i++)
+            {
+                if (all[i].get_remaining() != 0)
+                {
+                    if (time == -1 &&  (index == -1 || index == -2 ||  all[index].get_arrive() > all[i].get_arrive()))
+                        index = i;
+                    else if (all[i].get_arrive() > time && index == -1)
+                        index = -2;
+                    else if ((index == -1 || index == -2 || all[index].get_remaining() > all[i].get_remaining()) && all[i].get_arrive() <= time)
+                        index = i;
+                }
+            }
+            return index;
         }
 
         public void sort_prio()
@@ -390,6 +413,32 @@ namespace OS
             return info;
         }
 
+        public gant_info sjf()
+        {
+            int index = 0;
+            int time = 0;
+
+            while (true)
+            {
+                index = get_least(time);
+                time_list.Add(time);
+                if (index == -2)
+                {
+                    time = all[get_least(-1)].get_arrive();
+                    //index_list.Add(-2);
+                    continue;
+                }
+                index_list.Add(index);
+                if (index == -1) break;
+                all[index].excute_all();
+                time = time + all[index].get_burst();
+
+            }
+            gant_info info = new gant_info();
+            info.index = index_list;
+            info.time = time_list;
+            return info;
+        }
     }
 
 
