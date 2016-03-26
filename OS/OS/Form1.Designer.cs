@@ -54,7 +54,9 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.start = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.stop = new System.Windows.Forms.Button();
+            this.processes_count = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -64,8 +66,6 @@
             this.fcfs = new System.Windows.Forms.RadioButton();
             this.type = new System.Windows.Forms.GroupBox();
             this.subtype = new System.Windows.Forms.GroupBox();
-            this.processes_count = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.done1 = new System.Windows.Forms.Button();
             this.info.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -311,6 +311,15 @@
             this.start.UseVisualStyleBackColor = true;
             this.start.Click += new System.EventHandler(this.start_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(417, 28);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(88, 13);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "No. of processes";
+            // 
             // stop
             // 
             this.stop.Location = new System.Drawing.Point(430, 126);
@@ -319,6 +328,14 @@
             this.stop.TabIndex = 1;
             this.stop.Text = "Stop";
             this.stop.UseVisualStyleBackColor = true;
+            // 
+            // processes_count
+            // 
+            this.processes_count.Enabled = false;
+            this.processes_count.Location = new System.Drawing.Point(430, 44);
+            this.processes_count.Name = "processes_count";
+            this.processes_count.Size = new System.Drawing.Size(53, 20);
+            this.processes_count.TabIndex = 14;
             // 
             // groupBox5
             // 
@@ -357,6 +374,7 @@
             // 
             this.equations.BackColor = System.Drawing.SystemColors.Control;
             this.equations.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.equations.Enabled = false;
             this.equations.Location = new System.Drawing.Point(146, 98);
             this.equations.Name = "equations";
             this.equations.Size = new System.Drawing.Size(376, 13);
@@ -420,22 +438,6 @@
             this.subtype.TabIndex = 14;
             this.subtype.TabStop = false;
             this.subtype.Text = "Preemptivety";
-            // 
-            // processes_count
-            // 
-            this.processes_count.Location = new System.Drawing.Point(430, 44);
-            this.processes_count.Name = "processes_count";
-            this.processes_count.Size = new System.Drawing.Size(53, 20);
-            this.processes_count.TabIndex = 14;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(417, 28);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 13);
-            this.label2.TabIndex = 15;
-            this.label2.Text = "No. of processes";
             // 
             // done1
             // 

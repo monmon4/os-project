@@ -117,7 +117,7 @@ namespace OS
 
     class Processes
     {
-        List<Process> all;
+        public List<Process> all;
         List<int> index_list;
         List<int> time_list;
         List<int> sorted_arrive;
@@ -182,6 +182,17 @@ namespace OS
                 }
             }
             return index;
+        }
+
+        public int get_next_time(int time)
+        {
+            int index = 0;
+            for (int i = 0; i < all.Count(); i++)
+            {
+                if ((all[i].get_arrive() > time && all[i].get_arrive() < all[index].get_arrive() ) || all[index].get_arrive() <= time)
+                    index = i;
+            }
+            return all[index].get_arrive();
         }
 
         public void sort_prio()
@@ -425,7 +436,7 @@ namespace OS
                 if (index == -2)
                 {
                     time = all[get_least(-1)].get_arrive();
-                    //index_list.Add(-2);
+                    index_list.Add(-2);
                     continue;
                 }
                 index_list.Add(index);
@@ -439,7 +450,50 @@ namespace OS
             info.time = time_list;
             return info;
         }
+
+        public gant_info srjf()
+        {
+            int index = 0;
+            int time = 0, next_time = 0, excuted_time = 0;
+
+            while (true)
+            {
+                if(time == next_time)
+                    next_time = get_next_time(time);
+                index = get_least(time);
+                time_list.Add(time);
+                if (index == -2)
+                {
+                    time = all[get_least(-1)].get_arrive();
+                    index_list.Add(-2);
+                    continue;
+                }
+                index_list.Add(index);
+                if (index == -1) break;
+                if (next_time <= time)
+                {
+                    time = time + all[index].get_remaining();
+                    all[index].excute_all();
+                    
+                }
+                else
+                {
+                    excuted_time = all[index].excute(next_time - time);
+                    if (excuted_time < 0)
+                        time = next_time + excuted_time;
+                    else
+                        time = next_time;
+                }
+
+            }
+            gant_info info = new gant_info();
+            info.index = index_list;
+            info.time = time_list;
+            return info;
+        }
+
     }
+
 
 
     static class Program

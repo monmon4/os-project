@@ -54,7 +54,7 @@ namespace OS
                         s = s + ".";
                     }
                 }
-                string m = "   " + s + "   ";
+                string m =  s ;
                 time = info.time[i];
                 textBox2.AppendText(Convert.ToString(time));
                 textBox2.AppendText(m);
@@ -129,10 +129,6 @@ namespace OS
                 processes.add_process(process);
             }
             i++;
-           
-            // Loop through and add 50 items to the ListBox.
-        
-               
                 string[] arr = new string[5]; 
                 ListViewItem itm; 
                  arr[0] = i.ToString();
@@ -142,6 +138,7 @@ namespace OS
                  arr[4] = prio.Text;
                 itm = new ListViewItem(arr); 
                 listView1.Items.Add(itm);
+                processes_count.Text = i.ToString();
 
             
         }
@@ -155,6 +152,24 @@ namespace OS
         private void gantt_chart_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private float wait(gant_info info)
+        {
+            int index = 0, total_time = 0;
+            for (int j = 0; j < processes.all.Count(); j++)
+            {
+                index = info.index.IndexOf(j);
+                total_time += info.time[index] - processes.all[j].get_arrive();
+            }
+            return total_time;
+
+        }
+        private void average_wait(gant_info info)
+        {
+
+            float total_waiting = wait(info);
+            equations.Text = (total_waiting / processes.all.Count()).ToString();
         }
 
         private void start_Click(object sender, EventArgs e)
@@ -180,8 +195,12 @@ namespace OS
             }
             else if (sjf.Checked)
             {
-                info = processes.sjf();
+                if (preem.Checked)
+                    info = processes.srjf();
+                else
+                    info = processes.sjf();
                 draw_chart(info);
+                average_wait(info);
             }
             else if (priority.Checked)
             {
@@ -206,19 +225,12 @@ namespace OS
             {
                info =  processes.rr(Int32.Parse(q.Text));
                 draw_chart(info);
+                average_wait(info);
                
             }
 
-            /*string x="   " + name.Text + "   ";
-            string y = "|";
-            string m = "       ";
-            int z = 0;
-            int time = z+Int32.Parse(arrive.Text) + Int32.Parse(burst.Text);
-            textBox2.AppendText(Convert.ToString(z));
-            textBox2.AppendText(m);
-            textBox2.AppendText(Convert.ToString(time));
-            gantt_chart.AppendText(x);               
-            gantt_chart.AppendText(y);*/
+            
+
         }
 
         private void preem_CheckedChanged(object sender, EventArgs e)
