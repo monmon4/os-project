@@ -138,7 +138,7 @@ namespace OS
                  arr[4] = prio.Text;
                 itm = new ListViewItem(arr); 
                 listView1.Items.Add(itm);
-                processes_count.Text = i.ToString();
+                processes_count.Text = i.ToString(); // to send the number of processes
 
             
         }
@@ -154,7 +154,7 @@ namespace OS
 
         }
 
-        private float wait(gant_info info)
+        private float wait(gant_info info) // to get the whole waiting time
         {
             int index = 0, total_time = 0;
             for (int j = 0; j < processes.all.Count(); j++)
@@ -165,7 +165,7 @@ namespace OS
             return total_time;
 
         }
-        private void average_wait(gant_info info)
+        private void average_wait(gant_info info) // to get the average waiting time
         {
 
             float total_waiting = wait(info);

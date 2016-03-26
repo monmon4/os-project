@@ -6,7 +6,7 @@ class gant_info
 {
     public List<int> index ;
     public List<int> time  ;
-    public gant_info()
+    public gant_info() // a class contains list of start time and indexes of running processes
     {
         List<int> index = new List<int>();
         List<int> time = new List<int>() ;
@@ -76,7 +76,7 @@ namespace OS
             return prio;
         }
 
-        public int excute(int time)
+        public int excute(int time) // to calculate remaining time
         {
             if (time < remaining)
             {
@@ -117,10 +117,10 @@ namespace OS
 
     class Processes
     {
-        public List<Process> all;
+        public List<Process> all; // contains all the processes
         List<int> index_list;
         List<int> time_list;
-        List<int> sorted_arrive;
+        List<int> sorted_arrive; // for process sorted by they arrival time
         int s;
         List<Process> sorted_prio;
         List<Process> sorted_arri;
@@ -149,7 +149,7 @@ namespace OS
             return all[i];
         }
 
-        private void sort()
+        private void sort() // to sort the processes by their arrival time
         {
             int index=0;
             for (int i = 0; i < all.Count(); i++)
@@ -162,29 +162,29 @@ namespace OS
                     else if (sorted_arrive.IndexOf(j) == -1 && sorted_arrive.IndexOf(index) != -1)
                         index = j;
                 }
-                sorted_arrive.Add(index);
+                sorted_arrive.Add(index); // contains the indexes of all sorted
             }
         }
 
-        private int get_least(int time)
+        private int get_least(int time) //to get least remaining time
         {
-            int index = -1;
+            int index = -1; // indicates the end
             for (int i = 0; i < all.Count(); i++)
             {
                 if (all[i].get_remaining() != 0)
                 {
                     if (time == -1 &&  (index == -1 || index == -2 ||  all[index].get_arrive() > all[i].get_arrive()))
-                        index = i;
+                        index = i; // get least arrival
                     else if (all[i].get_arrive() > time && index == -1)
-                        index = -2;
+                        index = -2; // indicate a gap
                     else if ((index == -1 || index == -2 || all[index].get_remaining() > all[i].get_remaining()) && all[i].get_arrive() <= time)
-                        index = i;
+                        index = i; // get least remaining
                 }
             }
             return index;
         }
 
-        public int get_next_time(int time)
+        public int get_next_time(int time) // to get the arrival time of the next process
         {
             int index = 0;
             for (int i = 0; i < all.Count(); i++)
@@ -193,6 +193,126 @@ namespace OS
                     index = i;
             }
             return all[index].get_arrive();
+        }
+
+
+        private int get_next(int time) // to get the index of the next process
+        {
+            if (s!=0 && all[sorted_arrive[s-1]].get_remaining() == 0)
+            {
+                sorted_arrive.RemoveAt(s-1);
+                s--;
+            }
+            if (s == sorted_arrive.Count()) s = 0;
+            if (sorted_arrive.Count() == 0) return -1;
+            else if (all[sorted_arrive[s]].get_arrive() <= time)
+            {
+                s++;
+                return sorted_arrive[s - 1];
+            }
+
+            else if (s == 0) return -2;
+            else
+            {
+                s = 1;
+                return sorted_arrive[s - 1];
+            }          
+        }
+
+        public gant_info rr(int q) //for round robin it takes the quantam 
+        {
+            sort();
+            int index = 0;
+            int time = 0;
+
+            while (true)
+            {
+                index = get_next(time);
+                time_list.Add(time);
+                if (index == -2)
+                {
+                    time = all[sorted_arrive[0]].get_arrive();
+                    index_list.Add(-2);
+                    continue;
+                }
+                index_list.Add(index);
+                if (index == -1) break;
+                int x = all[index].excute(q);
+                time = x < 0 ? time + q + x : time + q;
+
+            }
+            gant_info info = new gant_info();
+            info.index = index_list;
+            info.time = time_list;
+            return info;
+        }
+
+        public gant_info sjf()
+        {
+            int index = 0;
+            int time = 0;
+
+            while (true)
+            {
+                index = get_least(time); //get least remaining time
+                time_list.Add(time);
+                if (index == -2) // there is a gap
+                {
+                    time = all[get_least(-1)].get_arrive();
+                    index_list.Add(-2);
+                    continue;
+                }
+                index_list.Add(index);
+                if (index == -1) break; // the end of processes
+                all[index].excute_all(); // execute the process till its end
+                time = time + all[index].get_burst();
+
+            }
+            gant_info info = new gant_info(); // to store the indexes and their times (already done) in the execution order
+            info.index = index_list;
+            info.time = time_list;
+            return info;
+        }
+
+        public gant_info srjf() // preemtive sjf
+        {
+            int index = 0;
+            int time = 0, next_time = 0, excuted_time = 0;
+
+            while (true)
+            {
+                if (time == next_time) //time= current time, next time= the next arrival time
+                    next_time = get_next_time(time); // to get anew next time
+                index = get_least(time); //get least remainig time
+                time_list.Add(time);
+                if (index == -2) // there is a gap
+                {
+                    time = all[get_least(-1)].get_arrive();
+                    index_list.Add(-2);
+                    continue;
+                }
+                index_list.Add(index);
+                if (index == -1) break; // the end of processes
+                if (next_time <= time) // doesn't happen except at the last arrival
+                {
+                    time = time + all[index].get_remaining(); // to get the time of the holded proceses
+                    all[index].excute_all();
+
+                }
+                else // what happens at all the processes
+                {
+                    excuted_time = all[index].excute(next_time - time); // execute till the next arrival time
+                    if (excuted_time < 0) // if the process finished before the next arrival
+                        time = next_time + excuted_time;
+                    else
+                        time = next_time;
+                }
+
+            }
+            gant_info info = new gant_info();
+            info.index = index_list;
+            info.time = time_list;
+            return info;
         }
 
         public void sort_prio()
@@ -233,58 +353,19 @@ namespace OS
                 Process temp = sorted_arri[sorted_arri.Count() - 1 - i];
                 sorted_arri[sorted_arri.Count() - 1 - i] = sorted_arri[max_arri_index];
                 sorted_arri[max_arri_index] = temp;
-
-
-
-
             }
         }
+
         public Process get_sorted_prio(int n)
         {
             sort_prio();
             return sorted_prio[n];
         }
+
         public Process get_sorted_arri(int n)
         {
             sort_arri();
-            return sorted_arri [n];
-        }
-
-
-        /*private int get_least_arrival()
-        { 
-            int index=0;
-            for (int i = 0; i < all.Count(); i++)
-            {
-                if (all[i].get_arrive() < all[index].get_arrive())
-                    index = i;
-            }
-                return index;
-        }*/
-        private int get_next(int time)
-        {
-            if (s!=0 && all[sorted_arrive[s-1]].get_remaining() == 0)
-            {
-                sorted_arrive.RemoveAt(s-1);
-                s--;
-            }
-            if (s == sorted_arrive.Count()) s = 0;
-            if (sorted_arrive.Count() == 0) return -1;
-            else if (all[sorted_arrive[s]].get_arrive() <= time)
-            {
-                s++;
-                return sorted_arrive[s - 1];
-            }
-
-            else if (s == 0) return -2;
-            else
-            {
-                s = 1;
-                return sorted_arrive[s - 1];
-            }
-
-            
-
+            return sorted_arri[n];
         }
 
         public void gantt_process1(string name,int arrive,int burst,TextBox box2,TextBox gantt)
@@ -310,7 +391,6 @@ namespace OS
                 box2.AppendText(Convert.ToString(time));
                 gantt.AppendText(x);
                 gantt.AppendText(y);
-
             }
 
             else if (arrive != 0)
@@ -330,6 +410,7 @@ namespace OS
 
             }
         }
+
         public int get_time_p1(int arrive, int burst)
         {
             int time=0;
@@ -395,103 +476,6 @@ namespace OS
             }
             return time;
         }
-
-        public gant_info rr(int q)
-        {
-            sort();
-            int index = 0;
-            int time = 0;
-  
-            while (true)
-            {
-                index = get_next(time);
-                time_list.Add(time);
-                if (index == -2)
-                {
-                    time = all[sorted_arrive[0]].get_arrive();
-                    index_list.Add(-2);
-                    continue;
-                }
-                index_list.Add(index);
-                if (index == -1) break;
-                int x = all[index].excute(q);
-                time = x < 0 ? time + q + x : time + q;
-                
-            }
-            gant_info info = new gant_info();
-            info.index = index_list;
-            info.time = time_list;
-            return info;
-        }
-
-        public gant_info sjf()
-        {
-            int index = 0;
-            int time = 0;
-
-            while (true)
-            {
-                index = get_least(time);
-                time_list.Add(time);
-                if (index == -2)
-                {
-                    time = all[get_least(-1)].get_arrive();
-                    index_list.Add(-2);
-                    continue;
-                }
-                index_list.Add(index);
-                if (index == -1) break;
-                all[index].excute_all();
-                time = time + all[index].get_burst();
-
-            }
-            gant_info info = new gant_info();
-            info.index = index_list;
-            info.time = time_list;
-            return info;
-        }
-
-        public gant_info srjf()
-        {
-            int index = 0;
-            int time = 0, next_time = 0, excuted_time = 0;
-
-            while (true)
-            {
-                if(time == next_time)
-                    next_time = get_next_time(time);
-                index = get_least(time);
-                time_list.Add(time);
-                if (index == -2)
-                {
-                    time = all[get_least(-1)].get_arrive();
-                    index_list.Add(-2);
-                    continue;
-                }
-                index_list.Add(index);
-                if (index == -1) break;
-                if (next_time <= time)
-                {
-                    time = time + all[index].get_remaining();
-                    all[index].excute_all();
-                    
-                }
-                else
-                {
-                    excuted_time = all[index].excute(next_time - time);
-                    if (excuted_time < 0)
-                        time = next_time + excuted_time;
-                    else
-                        time = next_time;
-                }
-
-            }
-            gant_info info = new gant_info();
-            info.index = index_list;
-            info.time = time_list;
-            return info;
-        }
-
     }
 
 
