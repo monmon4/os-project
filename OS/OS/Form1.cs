@@ -104,15 +104,7 @@ namespace OS
 
         private void arrive_TextChanged(object sender, EventArgs e)
         {
-            if (priority.Checked)
-            {
-                if (nonpreem.Checked)
-                {
-                    arrive.Text = "0";
-                    MessageBox.Show("Please consider that we assume all process arrive @ 0 time ...");
-
-                }
-            }
+            
         }
         private void add_Click(object sender, EventArgs e)
         {
@@ -204,19 +196,16 @@ namespace OS
             }
             else if (priority.Checked)
             {
+                int waiting_time;
                 if (nonpreem.Checked)
                 {
-                    processes.gantt_process1(processes.get_sorted_prio(0).get_name(), processes.get_sorted_prio(0).get_arrive(), processes.get_sorted_prio(0).get_burst(), textBox2, gantt_chart);
-                    time = processes.get_time_p1(processes.get_sorted_prio(0).get_arrive(), processes.get_sorted_prio(0).get_burst());
-                    int waiting_time = time - processes.get_sorted_prio(0).get_arrive() - processes.get_sorted_prio(0).get_burst();
+                    //p1
+                    processes.gantt_process1(processes.get_sorted_arri(0).get_name(), processes.get_sorted_arri(0).get_arrive(), processes.get_sorted_arri(0).get_burst(), textBox2, gantt_chart);
+                    time = processes.get_time_p1(processes.get_sorted_arri(0).get_arrive(), processes.get_sorted_arri(0).get_burst());
+                    waiting_time = time - processes.get_sorted_arri(0).get_arrive() - processes.get_sorted_arri(0).get_burst();
                     //the rest
-                    for (int i = 1; i < Int32.Parse(processes_count.Text); i++)
-                    {
-                        processes.gantt_the_rest_processes(processes.get_sorted_prio(i).get_name(), processes.get_sorted_prio(i).get_arrive(), processes.get_sorted_prio(i).get_burst(), time, textBox2, gantt_chart);
-                        time = processes.get_time(processes.get_sorted_prio(i).get_arrive(), processes.get_sorted_prio(i).get_burst(), time);
-                        waiting_time = waiting_time + time - processes.get_sorted_prio(0).get_arrive() - processes.get_sorted_prio(0).get_burst();
-
-                    }
+                    processes.gantt_the_rest_processes_prio(time, textBox2, gantt_chart, processes_count);
+                    waiting_time = processes.get_waiting_time_prio(time, waiting_time);
                     decimal Avg_WT = (decimal)waiting_time / Convert.ToDecimal(processes_count.Text);
                     equations.AppendText(Convert.ToString(Avg_WT) + "  sec");
                 }

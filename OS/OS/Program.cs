@@ -124,7 +124,7 @@ namespace OS
         int s;
         List<Process> sorted_prio;
         List<Process> sorted_arri;
-        
+        List<Process> sorted_arri_time;
 
         public Processes()
         {
@@ -135,14 +135,15 @@ namespace OS
             s = 0;
             sorted_prio = new List<Process>();
             sorted_arri = new List<Process>();
+            sorted_arri_time = new List<Process>();
            
         }
 
         public void add_process(Process process)
         {
             all.Add(process);
-            sorted_prio.Add(process);
             sorted_arri.Add(process);
+            sorted_arri_time.Add(process);
         }
         public Process get_process(int i)
         {
@@ -327,6 +328,13 @@ namespace OS
                     {
                         max_prio_index = j;
                     }
+                    else if (sorted_prio[j].get_prio() == sorted_prio[max_prio_index].get_prio())// if 2 equal prio 
+                    {
+                        if (sorted_prio[j].get_arrive() > sorted_prio[max_prio_index].get_arrive())
+                        {
+                            max_prio_index = j;
+                        }
+                    }
                 }
                 Process temp = sorted_prio[sorted_prio.Count() - 1 - i];
                 sorted_prio[sorted_prio.Count() - 1 - i] = sorted_prio[max_prio_index];
@@ -349,6 +357,10 @@ namespace OS
                     {
                         max_arri_index = j;
                     }
+                    else if (sorted_arri[j].get_arrive() == sorted_arri[max_arri_index].get_arrive())// if 2 equal arri 
+                    {
+                        max_arri_index = j;
+                    }
                 }
                 Process temp = sorted_arri[sorted_arri.Count() - 1 - i];
                 sorted_arri[sorted_arri.Count() - 1 - i] = sorted_arri[max_arri_index];
@@ -368,11 +380,18 @@ namespace OS
             return sorted_arri[n];
         }
 
+        public Process get_sorted_arri_time(int n)
+        {
+            sort_arri();
+            return sorted_arri_time[n];
+        }
+
+
         public void gantt_process1(string name,int arrive,int burst,TextBox box2,TextBox gantt)
         {
             string x = "   " + name + "   ";
             string y = "|";
-            string s = ".";
+            string s = null;
             string ss = name;
             for (int i = 0; i < ss.Length; i++)
             {
@@ -430,7 +449,7 @@ namespace OS
         {
             string y = "|";
             string x = "   " + name + "   ";
-            string s = ".";
+            string s = null;
             string ss = name;
             for (int j = 0; j < ss.Length; j++)
             {
@@ -464,6 +483,75 @@ namespace OS
             }
         }
 
+        public void gantt_the_rest_processes_prio(int time, TextBox box2, TextBox gantt, TextBox count)
+        {
+            string x, y, s, ss, m;
+            for (int i = 1; i < sorted_arri.Count(); i++)
+            {
+                y = "|";
+                if (sorted_arri[i].get_arrive() < time)
+                {
+                    for (int a = 1; a < sorted_arri.Count(); a = 1)
+                    {
+                        if (sorted_arri[a].get_arrive() < time) // time da bta3 el process elly ablha //ba4of el time bta3 kol elly as8r mn el time da 34an a4of el prio bta3hom
+                        { //ba4of el time bta3 kol elly as8r mn el time da 34an a7otohm f list w a4of el prio bta3hom el 5atwa el gaya
+                            sorted_prio.Add(sorted_arri[a]);
+                            sorted_arri.Remove(sorted_arri[a]);
+                            // ams7ha 34an mttb34 tany fel iteration elly b3do;
+                        }
+                    }
+                    sort_prio(); // keda 3ml sort prio lel processes elly gat 2bl el time f keda n2dr ntb3hom bel trteb              
+
+                    for (int j = 0; j < sorted_prio.Count(); j++)
+                    {
+                        x = "   " + sorted_prio[j].get_name() + "   ";
+                        s = null;
+                        ss = sorted_prio[j].get_name();
+                        for (int l = 0; l < ss.Length; l++)
+                        {
+                            s = s + ".";
+                        }
+                        m = "   " + s + "   ";
+                        box2.AppendText(m);
+                        time = time + sorted_prio[j].get_burst();//last time+burst  //new time
+                        box2.AppendText(Convert.ToString(time));
+                        gantt.AppendText(x);
+                        gantt.AppendText(y);
+
+                    }
+                    // yms7 el list 34an el iteration elly b3do
+                    sorted_prio.Clear();
+                }
+                else if (sorted_arri[i].get_arrive() > time) // m4 m7tage prio 34an asln mafe4 process mawgoda now
+                {
+                    time = sorted_arri[i].get_arrive();
+                    // no process time
+                    box2.AppendText("  .  ");
+                    gantt.AppendText("      ");
+                    gantt.AppendText(y);
+
+                    x = "   " + sorted_arri[i].get_name() + "   ";
+                    s = null;
+                    ss = sorted_arri[i].get_name();
+                    for (int l = 0; l < ss.Length; l++)
+                    {
+                        s = s + ".";
+                    }
+                    m = "   " + s + "   ";
+
+                    box2.AppendText(Convert.ToString(time)); // process arrived
+                    box2.AppendText(m);
+                    time = time + sorted_arri[i].get_burst();
+                    box2.AppendText(Convert.ToString(time));
+                    gantt.AppendText(x);
+                    gantt.AppendText(y);
+
+                    sorted_arri.Remove(sorted_arri[i]);
+                    i--;
+                }
+            }
+        }
+
         public int get_time(int arrive, int burst, int time)
         {
             if (arrive < time) // time da bta3 el process elly ablha 
@@ -476,7 +564,46 @@ namespace OS
             }
             return time;
         }
+
+        public int get_waiting_time_prio(int T, int WT)
+        {
+            for (int i = 1; i < sorted_arri_time.Count(); i++)
+            {
+                if (sorted_arri_time[i].get_arrive() < T)
+                {
+                    for (int a = 1; a < sorted_arri_time.Count(); a = 1)
+                    {
+                        if (sorted_arri_time[a].get_arrive() < T) // time da bta3 el process elly ablha //ba4of el time bta3 kol elly as8r mn el time da 34an a4of el prio bta3hom
+                        { //ba4of el time bta3 kol elly as8r mn el time da 34an a7otohm f list w a4of el prio bta3hom el 5atwa el gaya
+                            sorted_prio.Add(sorted_arri_time[a]);
+                            sorted_arri_time.Remove(sorted_arri_time[a]);
+                            // ams7ha 34an mttb34 tany fel iteration elly b3do;
+                        }
+                    }
+                    sort_prio();
+                    for (int j = 0; j < sorted_prio.Count(); j++)
+                    {
+
+                        T = T + sorted_prio[j].get_burst();//last time+burst  //new time
+                        WT = WT + T - sorted_prio[j].get_arrive() - sorted_prio[j].get_burst();
+                    }
+                    sorted_prio.Clear();
+                }
+                else if (sorted_arri_time[i].get_arrive() > T)
+                {
+                    T = sorted_arri_time[i].get_arrive() + sorted_arri_time[i].get_burst();
+                    WT = WT + T - sorted_arri_time[i].get_arrive() - sorted_arri_time[i].get_burst();
+                    sorted_arri_time.Remove(sorted_arri_time[i]);
+                    i--;
+                }
+            }
+            return WT;
+        }
+
+
     }
+
+
 
 
 
