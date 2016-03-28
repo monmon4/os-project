@@ -172,18 +172,23 @@ namespace OS
             gant_info info = new gant_info();
             if (fcfs.Checked)
             {
-                processes.gantt_process1(processes.get_sorted_arri(0).get_name(), processes.get_sorted_arri(0).get_arrive(), processes.get_sorted_arri(0).get_burst(), textBox2,gantt_chart);
-               time= processes.get_time_p1(processes.get_sorted_arri(0).get_arrive(), processes.get_sorted_arri(0).get_burst());
-               int waiting_time= time - processes.get_sorted_arri(0).get_arrive()- processes.get_sorted_arri(0).get_burst();
+                processes.gantt_process1(processes.get_sorted_arri(0).get_name(), processes.get_sorted_arri(0).get_arrive(), processes.get_sorted_arri(0).get_burst(), textBox2, gantt_chart);
+                time = processes.get_time_p1(processes.get_sorted_arri(0).get_arrive(), processes.get_sorted_arri(0).get_burst());
+                int waiting_time = time - processes.get_sorted_arri(0).get_arrive() - processes.get_sorted_arri(0).get_burst();
                 //the rest
                 for (int i = 1; i < Int32.Parse(processes_count.Text); i++)
                 {
-                    processes.gantt_the_rest_processes(processes.get_sorted_arri(i).get_name(), processes.get_sorted_arri(i).get_arrive(), processes.get_sorted_arri(i).get_burst(),time, textBox2, gantt_chart);
+                    processes.gantt_the_rest_processes(processes.get_sorted_arri(i).get_name(), processes.get_sorted_arri(i).get_arrive(), processes.get_sorted_arri(i).get_burst(), time, textBox2, gantt_chart);
                     time = processes.get_time(processes.get_sorted_arri(i).get_arrive(), processes.get_sorted_arri(i).get_burst(), time);
-                       waiting_time=waiting_time  + time -processes.get_sorted_arri(i).get_arrive()- processes.get_sorted_arri(i).get_burst() ; 
+                    waiting_time = waiting_time + time - processes.get_sorted_arri(i).get_arrive() - processes.get_sorted_arri(i).get_burst();
                 }
-                decimal Avg_WT =(decimal)waiting_time / Convert.ToDecimal(processes_count.Text);
+                decimal Avg_WT = (decimal)waiting_time / Convert.ToDecimal(processes_count.Text);
                 equations.AppendText(Convert.ToString(Avg_WT) + "  sec");
+                //info = processes.fcfs();
+                //draw_chart(info);
+                //average_wait(info);
+
+                
             }
             else if (sjf.Checked)
             {

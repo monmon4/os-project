@@ -316,6 +316,33 @@ namespace OS
             return info;
         }
 
+        //public gant_info fcfs()
+        //{
+        //    sort();
+        //    int index = 0;
+        //    int time = 0;
+        //    while (true)
+        //    {
+        //        index = get_next(time);
+        //        time_list.Add(time);
+        //        if (index == -2)
+        //        {
+        //            time = all[sorted_arrive[0]].get_arrive();
+        //            index_list.Add(-2);
+        //            continue;
+        //        }
+        //        index_list.Add(index);
+        //        if (index == -1) break;
+        //        all[index].excute_all();
+        //        time = time + all[index].get_burst();
+        //    }
+        //    gant_info info = new gant_info();
+        //    info.index = index_list;
+        //    info.time = time_list;
+        //    return info;
+
+        //}
+
         public void sort_prio()
         {
 
