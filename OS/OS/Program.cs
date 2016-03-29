@@ -12,6 +12,8 @@ class gant_info
         List<int> time = new List<int>() ;
     }
 }
+
+enum Method { FCFS, SJF, SRJF, PRP, PRN, RR };
 namespace OS
 {
     
@@ -101,6 +103,11 @@ namespace OS
             return remaining;
         }
 
+        public void reset()
+        {
+            remaining = burst;
+        }
+
         public string get_info()
         {
             return name + " " + arrive.ToString() + " " + burst.ToString() + " " + prio.ToString();
@@ -122,9 +129,7 @@ namespace OS
         List<int> time_list;
         List<int> sorted_arrive; // for process sorted by they arrival time
         int s;
-        List<Process> sorted_prio;
-        List<Process> sorted_arri;
-        List<Process> sorted_arri_time;
+        
 
         public Processes()
         {
@@ -133,25 +138,34 @@ namespace OS
             time_list = new List<int>();
             sorted_arrive = new List<int>();
             s = 0;
-            sorted_prio = new List<Process>();
-            sorted_arri = new List<Process>();
-            sorted_arri_time = new List<Process>();
            
         }
 
         public void add_process(Process process)
         {
             all.Add(process);
-            sorted_arri.Add(process);
-            sorted_arri_time.Add(process);
         }
         public Process get_process(int i)
         {
             return all[i];
         }
 
+        public void reset()
+        {
+            index_list = new List<int>();
+            time_list = new List<int>();
+            sorted_arrive = new List<int>();
+            s = 0;
+            for (int i = 0; i < all.Count; i++)
+            {
+                all[i].reset();
+            }
+
+        }
+
         private void sort() // to sort the processes by their arrival time
         {
+            sorted_arrive = new List<int>();
             int index=0;
             for (int i = 0; i < all.Count(); i++)
             {
@@ -167,19 +181,21 @@ namespace OS
             }
         }
 
-        private int get_least(int time) //to get least remaining time
+        private int get_least(int time, Method method = Method.SJF) //to get least remaining time
         {
             int index = -1; // indicates the end
             for (int i = 0; i < all.Count(); i++)
             {
                 if (all[i].get_remaining() != 0)
                 {
-                    if (time == -1 &&  (index == -1 || index == -2 ||  all[index].get_arrive() > all[i].get_arrive()))
+                    if (time == -1 && (index == -1 || index == -2 || all[index].get_arrive() > all[i].get_arrive()))
                         index = i; // get least arrival
                     else if (all[i].get_arrive() > time && index == -1)
                         index = -2; // indicate a gap
-                    else if ((index == -1 || index == -2 || all[index].get_remaining() > all[i].get_remaining()) && all[i].get_arrive() <= time)
+                    else if (((index == -1 || index == -2 || all[index].get_remaining() > all[i].get_remaining()) && all[i].get_arrive() <= time) && (method == Method.SJF || method == Method.SRJF))
                         index = i; // get least remaining
+                    else if (((index == -1 || index == -2 || all[index].get_prio() > all[i].get_prio()) && all[i].get_arrive() <= time) && (method == Method.PRN || method == Method.PRP))
+                        index = i;//get least priority
                 }
             }
             return index;
@@ -220,417 +236,47 @@ namespace OS
             }          
         }
 
-        public gant_info rr(int q) //for round robin it takes the quantam 
+        public gant_info start_excution(Method method = Method.FCFS, int q = -1)
         {
             sort();
             int index = 0;
             int time = 0;
-
+            int next_time = 0;
             while (true)
             {
-                index = get_next(time);
+                if (time == next_time && (method == Method.SRJF || method == Method.PRP))
+                    next_time = get_next_time(time);
+                if (method == Method.FCFS || method == Method.RR)
+                    index = get_next(time);
+                else
+                    index = get_least(time,method);
                 time_list.Add(time);
                 if (index == -2)
                 {
-                    time = all[sorted_arrive[0]].get_arrive();
+                    time = all[get_least(-1)].get_arrive();
                     index_list.Add(-2);
                     continue;
                 }
                 index_list.Add(index);
                 if (index == -1) break;
-                int x = all[index].excute(q);
-                time = x < 0 ? time + q + x : time + q;
-
-            }
-            gant_info info = new gant_info();
-            info.index = index_list;
-            info.time = time_list;
-            return info;
-        }
-
-        public gant_info sjf()
-        {
-            int index = 0;
-            int time = 0;
-
-            while (true)
-            {
-                index = get_least(time); //get least remaining time
-                time_list.Add(time);
-                if (index == -2) // there is a gap
+                if (method == Method.FCFS || method == Method.SJF || method == Method.PRN || (method == Method.SRJF || method == Method.PRP && next_time <= time))
                 {
-                    time = all[get_least(-1)].get_arrive();
-                    index_list.Add(-2);
-                    continue;
-                }
-                index_list.Add(index);
-                if (index == -1) break; // the end of processes
-                all[index].excute_all(); // execute the process till its end
-                time = time + all[index].get_burst();
-
-            }
-            gant_info info = new gant_info(); // to store the indexes and their times (already done) in the execution order
-            info.index = index_list;
-            info.time = time_list;
-            return info;
-        }
-
-        public gant_info srjf() // preemtive sjf
-        {
-            int index = 0;
-            int time = 0, next_time = 0, excuted_time = 0;
-
-            while (true)
-            {
-                if (time == next_time) //time= current time, next time= the next arrival time
-                    next_time = get_next_time(time); // to get anew next time
-                index = get_least(time); //get least remainig time
-                time_list.Add(time);
-                if (index == -2) // there is a gap
-                {
-                    time = all[get_least(-1)].get_arrive();
-                    index_list.Add(-2);
-                    continue;
-                }
-                index_list.Add(index);
-                if (index == -1) break; // the end of processes
-                if (next_time <= time) // doesn't happen except at the last arrival
-                {
-                    time = time + all[index].get_remaining(); // to get the time of the holded proceses
+                    time = time + all[index].get_remaining();
                     all[index].excute_all();
-
                 }
-                else // what happens at all the processes
+                else if ((method == Method.RR && q != -1) || method == Method.SRJF || method == Method.PRP)
                 {
-                    excuted_time = all[index].excute(next_time - time); // execute till the next arrival time
-                    if (excuted_time < 0) // if the process finished before the next arrival
-                        time = next_time + excuted_time;
-                    else
-                        time = next_time;
+                    if (method == Method.SRJF || method == Method.PRP) q = next_time - time;
+                    int x = all[index].excute(q);
+                    time = x < 0 ? time + q + x : time + q;
                 }
-
             }
             gant_info info = new gant_info();
             info.index = index_list;
             info.time = time_list;
             return info;
         }
-
-        //public gant_info fcfs()
-        //{
-        //    sort();
-        //    int index = 0;
-        //    int time = 0;
-        //    while (true)
-        //    {
-        //        index = get_next(time);
-        //        time_list.Add(time);
-        //        if (index == -2)
-        //        {
-        //            time = all[sorted_arrive[0]].get_arrive();
-        //            index_list.Add(-2);
-        //            continue;
-        //        }
-        //        index_list.Add(index);
-        //        if (index == -1) break;
-        //        all[index].excute_all();
-        //        time = time + all[index].get_burst();
-        //    }
-        //    gant_info info = new gant_info();
-        //    info.index = index_list;
-        //    info.time = time_list;
-        //    return info;
-
-        //}
-
-        public void sort_prio()
-        {
-
-            for (int i = 0; i < sorted_prio.Count() - 1; i++)
-            {
-                int max_prio_index = 0;
-                for (int j = 1; j < sorted_prio.Count() - i; j++) // sorting the max prio in the list 
-                {
-                    if (sorted_prio[j].get_prio() > sorted_prio[max_prio_index].get_prio())
-                    {
-                        max_prio_index = j;
-                    }
-                    else if (sorted_prio[j].get_prio() == sorted_prio[max_prio_index].get_prio())// if 2 equal prio 
-                    {
-                        if (sorted_prio[j].get_arrive() > sorted_prio[max_prio_index].get_arrive())
-                        {
-                            max_prio_index = j;
-                        }
-                    }
-                }
-                Process temp = sorted_prio[sorted_prio.Count() - 1 - i];
-                sorted_prio[sorted_prio.Count() - 1 - i] = sorted_prio[max_prio_index];
-                sorted_prio[max_prio_index] = temp;
-                // sorted_prio.Add(all[j]); // adding process with small prio
-
-
-
-            }
-        }
-        public void sort_arri()
-        {
-
-            for (int i = 0; i < sorted_arri.Count() - 1; i++)
-            {
-                int max_arri_index = 0;
-                for (int j = 1; j < sorted_arri.Count() - i; j++) // sorting the max prio in the list 
-                {
-                    if (sorted_arri[j].get_arrive() > sorted_arri[max_arri_index].get_arrive())
-                    {
-                        max_arri_index = j;
-                    }
-                    else if (sorted_arri[j].get_arrive() == sorted_arri[max_arri_index].get_arrive())// if 2 equal arri 
-                    {
-                        max_arri_index = j;
-                    }
-                }
-                Process temp = sorted_arri[sorted_arri.Count() - 1 - i];
-                sorted_arri[sorted_arri.Count() - 1 - i] = sorted_arri[max_arri_index];
-                sorted_arri[max_arri_index] = temp;
-            }
-        }
-
-        public Process get_sorted_prio(int n)
-        {
-            sort_prio();
-            return sorted_prio[n];
-        }
-
-        public Process get_sorted_arri(int n)
-        {
-            sort_arri();
-            return sorted_arri[n];
-        }
-
-        public Process get_sorted_arri_time(int n)
-        {
-            sort_arri();
-            return sorted_arri_time[n];
-        }
-
-
-        public void gantt_process1(string name,int arrive,int burst,TextBox box2,TextBox gantt)
-        {
-            string x = "   " + name + "   ";
-            string y = "|";
-            string s = null;
-            string ss = name;
-            for (int i = 0; i < ss.Length; i++)
-            {
-                s = s + ".";
-            }
-
-            string m = "   " + s + "   ";
-            int time = 0;
-            //process1
-            if (arrive == 0)
-            {
-                time = 0;
-                box2.AppendText(Convert.ToString(0));
-                box2.AppendText(m);
-                time = time + burst;//last time+burst  //new time
-                box2.AppendText(Convert.ToString(time));
-                gantt.AppendText(x);
-                gantt.AppendText(y);
-            }
-
-            else if (arrive != 0)
-            {
-                time = arrive;
-                box2.AppendText(Convert.ToString(0)); // no process time
-                box2.AppendText("     ");
-                gantt.AppendText("     ");
-                gantt.AppendText(y);
-
-                box2.AppendText(Convert.ToString(time)); // process arrived
-                box2.AppendText(m);
-                time = time + burst;
-                box2.AppendText(Convert.ToString(time));
-                gantt.AppendText(x);
-                gantt.AppendText(y);
-
-            }
-        }
-
-        public int get_time_p1(int arrive, int burst)
-        {
-            int time=0;
-            if (arrive == 0)
-            {
-                time = burst;
-            }
-            else if (arrive != 0)
-            {
-                time = arrive + burst;
-            }
-
-            return time;
-        }
-
-        public void gantt_the_rest_processes(string name,int arrive,int burst,int time,TextBox box2,TextBox gantt)
-        {
-            string y = "|";
-            string x = "   " + name + "   ";
-            string s = null;
-            string ss = name;
-            for (int j = 0; j < ss.Length; j++)
-            {
-                s = s + ".";
-            }
-            string m = "   " + s + "   ";
-            if (arrive < time) // time da bta3 el process elly ablha 
-            {
-                box2.AppendText(m);
-                time = time + burst;//last time+burst  //new time
-                box2.AppendText(Convert.ToString(time));
-                gantt.AppendText(x);
-                gantt.AppendText(y);
-
-            }
-            else if (arrive > time)
-            {
-                time = arrive;
-                 // no process time
-                box2.AppendText("  ..  ");
-                gantt.AppendText("      ");
-                gantt.AppendText(y);
-
-                box2.AppendText(Convert.ToString(time)); // process arrived
-                box2.AppendText(m);
-                time = time + burst;
-                box2.AppendText(Convert.ToString(time));
-                gantt.AppendText(x);
-                gantt.AppendText(y);
-
-            }
-        }
-
-        public void gantt_the_rest_processes_prio(int time, TextBox box2, TextBox gantt, TextBox count)
-        {
-            string x, y, s, ss, m;
-            for (int i = 1; i < sorted_arri.Count(); i++)
-            {
-                y = "|";
-                if (sorted_arri[i].get_arrive() < time)
-                {
-                    for (int a = 1; a < sorted_arri.Count(); a = 1)
-                    {
-                        if (sorted_arri[a].get_arrive() < time) // time da bta3 el process elly ablha //ba4of el time bta3 kol elly as8r mn el time da 34an a4of el prio bta3hom
-                        { //ba4of el time bta3 kol elly as8r mn el time da 34an a7otohm f list w a4of el prio bta3hom el 5atwa el gaya
-                            sorted_prio.Add(sorted_arri[a]);
-                            sorted_arri.Remove(sorted_arri[a]);
-                            // ams7ha 34an mttb34 tany fel iteration elly b3do;
-                        }
-                    }
-                    sort_prio(); // keda 3ml sort prio lel processes elly gat 2bl el time f keda n2dr ntb3hom bel trteb              
-
-                    for (int j = 0; j < sorted_prio.Count(); j++)
-                    {
-                        x = "   " + sorted_prio[j].get_name() + "   ";
-                        s = null;
-                        ss = sorted_prio[j].get_name();
-                        for (int l = 0; l < ss.Length; l++)
-                        {
-                            s = s + ".";
-                        }
-                        m = "   " + s + "   ";
-                        box2.AppendText(m);
-                        time = time + sorted_prio[j].get_burst();//last time+burst  //new time
-                        box2.AppendText(Convert.ToString(time));
-                        gantt.AppendText(x);
-                        gantt.AppendText(y);
-
-                    }
-                    // yms7 el list 34an el iteration elly b3do
-                    sorted_prio.Clear();
-                }
-                else if (sorted_arri[i].get_arrive() > time) // m4 m7tage prio 34an asln mafe4 process mawgoda now
-                {
-                    time = sorted_arri[i].get_arrive();
-                    // no process time
-                    box2.AppendText("  .  ");
-                    gantt.AppendText("      ");
-                    gantt.AppendText(y);
-
-                    x = "   " + sorted_arri[i].get_name() + "   ";
-                    s = null;
-                    ss = sorted_arri[i].get_name();
-                    for (int l = 0; l < ss.Length; l++)
-                    {
-                        s = s + ".";
-                    }
-                    m = "   " + s + "   ";
-
-                    box2.AppendText(Convert.ToString(time)); // process arrived
-                    box2.AppendText(m);
-                    time = time + sorted_arri[i].get_burst();
-                    box2.AppendText(Convert.ToString(time));
-                    gantt.AppendText(x);
-                    gantt.AppendText(y);
-
-                    sorted_arri.Remove(sorted_arri[i]);
-                    i--;
-                }
-            }
-        }
-
-        public int get_time(int arrive, int burst, int time)
-        {
-            if (arrive < time) // time da bta3 el process elly ablha 
-            {
-                time = time + burst;
-            }
-            else if (arrive > time)
-            {
-                time = arrive+burst;
-            }
-            return time;
-        }
-
-        public int get_waiting_time_prio(int T, int WT)
-        {
-            for (int i = 1; i < sorted_arri_time.Count(); i++)
-            {
-                if (sorted_arri_time[i].get_arrive() < T)
-                {
-                    for (int a = 1; a < sorted_arri_time.Count(); a = 1)
-                    {
-                        if (sorted_arri_time[a].get_arrive() < T) // time da bta3 el process elly ablha //ba4of el time bta3 kol elly as8r mn el time da 34an a4of el prio bta3hom
-                        { //ba4of el time bta3 kol elly as8r mn el time da 34an a7otohm f list w a4of el prio bta3hom el 5atwa el gaya
-                            sorted_prio.Add(sorted_arri_time[a]);
-                            sorted_arri_time.Remove(sorted_arri_time[a]);
-                            // ams7ha 34an mttb34 tany fel iteration elly b3do;
-                        }
-                    }
-                    sort_prio();
-                    for (int j = 0; j < sorted_prio.Count(); j++)
-                    {
-
-                        T = T + sorted_prio[j].get_burst();//last time+burst  //new time
-                        WT = WT + T - sorted_prio[j].get_arrive() - sorted_prio[j].get_burst();
-                    }
-                    sorted_prio.Clear();
-                }
-                else if (sorted_arri_time[i].get_arrive() > T)
-                {
-                    T = sorted_arri_time[i].get_arrive() + sorted_arri_time[i].get_burst();
-                    WT = WT + T - sorted_arri_time[i].get_arrive() - sorted_arri_time[i].get_burst();
-                    sorted_arri_time.Remove(sorted_arri_time[i]);
-                    i--;
-                }
-            }
-            return WT;
-        }
-
-
     }
-
-
 
 
 

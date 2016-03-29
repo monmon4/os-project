@@ -36,6 +36,7 @@
             this.nonpreem = new System.Windows.Forms.RadioButton();
             this.preem = new System.Windows.Forms.RadioButton();
             this.info = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.warning = new System.Windows.Forms.Label();
             this.prio = new System.Windows.Forms.TextBox();
@@ -55,9 +56,8 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.start = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.stop = new System.Windows.Forms.Button();
             this.processes_count = new System.Windows.Forms.TextBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.result = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.equations = new System.Windows.Forms.TextBox();
@@ -69,7 +69,7 @@
             this.done1 = new System.Windows.Forms.Button();
             this.info.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
+            this.result.SuspendLayout();
             this.type.SuspendLayout();
             this.subtype.SuspendLayout();
             this.SuspendLayout();
@@ -146,14 +146,12 @@
             this.preem.TabIndex = 11;
             this.preem.Text = "Preemptive";
             this.preem.UseVisualStyleBackColor = true;
-            this.preem.CheckedChanged += new System.EventHandler(this.preem_CheckedChanged);
             // 
             // info
             // 
-            this.info.Controls.Add(this.label1);
+            this.info.Controls.Add(this.label5);
             this.info.Controls.Add(this.warning);
             this.info.Controls.Add(this.prio);
-            this.info.Controls.Add(this.q);
             this.info.Controls.Add(this.burst);
             this.info.Controls.Add(this.arrive);
             this.info.Controls.Add(this.prior);
@@ -170,10 +168,18 @@
             this.info.TabStop = false;
             this.info.Text = "Process info";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 75);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(0, 13);
+            this.label5.TabIndex = 17;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(346, 28);
+            this.label1.Location = new System.Drawing.Point(427, 42);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(51, 13);
             this.label1.TabIndex = 16;
@@ -196,7 +202,7 @@
             // 
             // q
             // 
-            this.q.Location = new System.Drawing.Point(347, 51);
+            this.q.Location = new System.Drawing.Point(430, 58);
             this.q.Name = "q";
             this.q.Size = new System.Drawing.Size(60, 20);
             this.q.TabIndex = 15;
@@ -214,7 +220,6 @@
             this.arrive.Name = "arrive";
             this.arrive.Size = new System.Drawing.Size(57, 20);
             this.arrive.TabIndex = 10;
-            this.arrive.TextChanged += new System.EventHandler(this.arrive_TextChanged);
             // 
             // prior
             // 
@@ -255,10 +260,9 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.listView1);
+            this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this.start);
-            this.groupBox4.Controls.Add(this.label2);
-            this.groupBox4.Controls.Add(this.stop);
-            this.groupBox4.Controls.Add(this.processes_count);
+            this.groupBox4.Controls.Add(this.q);
             this.groupBox4.Enabled = false;
             this.groupBox4.Location = new System.Drawing.Point(23, 219);
             this.groupBox4.Name = "groupBox4";
@@ -314,52 +318,44 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(417, 28);
+            this.label2.Location = new System.Drawing.Point(427, 148);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(88, 13);
             this.label2.TabIndex = 15;
             this.label2.Text = "No. of processes";
             // 
-            // stop
-            // 
-            this.stop.Location = new System.Drawing.Point(430, 126);
-            this.stop.Name = "stop";
-            this.stop.Size = new System.Drawing.Size(75, 23);
-            this.stop.TabIndex = 1;
-            this.stop.Text = "Stop";
-            this.stop.UseVisualStyleBackColor = true;
-            // 
             // processes_count
             // 
             this.processes_count.Enabled = false;
-            this.processes_count.Location = new System.Drawing.Point(430, 44);
+            this.processes_count.Location = new System.Drawing.Point(447, 164);
             this.processes_count.Name = "processes_count";
             this.processes_count.Size = new System.Drawing.Size(53, 20);
             this.processes_count.TabIndex = 14;
             // 
-            // groupBox5
+            // result
             // 
-            this.groupBox5.Controls.Add(this.label4);
-            this.groupBox5.Controls.Add(this.label3);
-            this.groupBox5.Controls.Add(this.equations);
-            this.groupBox5.Controls.Add(this.textBox2);
-            this.groupBox5.Controls.Add(this.gantt_chart);
-            this.groupBox5.Location = new System.Drawing.Point(23, 421);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(538, 124);
-            this.groupBox5.TabIndex = 6;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Result";
+            this.result.Controls.Add(this.label4);
+            this.result.Controls.Add(this.label3);
+            this.result.Controls.Add(this.label2);
+            this.result.Controls.Add(this.equations);
+            this.result.Controls.Add(this.textBox2);
+            this.result.Controls.Add(this.processes_count);
+            this.result.Controls.Add(this.gantt_chart);
+            this.result.Location = new System.Drawing.Point(23, 421);
+            this.result.Name = "result";
+            this.result.Size = new System.Drawing.Size(538, 190);
+            this.result.TabIndex = 6;
+            this.result.TabStop = false;
+            this.result.Text = "Result";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(25, 98);
+            this.label4.Location = new System.Drawing.Point(15, 171);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(119, 13);
             this.label4.TabIndex = 4;
             this.label4.Text = "Average waiting time =";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label3
             // 
@@ -375,9 +371,9 @@
             this.equations.BackColor = System.Drawing.SystemColors.Control;
             this.equations.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.equations.Enabled = false;
-            this.equations.Location = new System.Drawing.Point(146, 98);
+            this.equations.Location = new System.Drawing.Point(129, 171);
             this.equations.Name = "equations";
-            this.equations.Size = new System.Drawing.Size(376, 13);
+            this.equations.Size = new System.Drawing.Size(278, 13);
             this.equations.TabIndex = 2;
             // 
             // textBox2
@@ -385,7 +381,7 @@
             this.textBox2.BackColor = System.Drawing.SystemColors.Control;
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.Enabled = false;
-            this.textBox2.Location = new System.Drawing.Point(18, 72);
+            this.textBox2.Location = new System.Drawing.Point(18, 73);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(504, 13);
             this.textBox2.TabIndex = 1;
@@ -393,14 +389,13 @@
             // gantt_chart
             // 
             this.gantt_chart.BackColor = System.Drawing.SystemColors.Control;
-            this.gantt_chart.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gantt_chart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.gantt_chart.Enabled = false;
             this.gantt_chart.ForeColor = System.Drawing.SystemColors.WindowText;
             this.gantt_chart.Location = new System.Drawing.Point(18, 47);
             this.gantt_chart.Name = "gantt_chart";
-            this.gantt_chart.Size = new System.Drawing.Size(504, 13);
+            this.gantt_chart.Size = new System.Drawing.Size(504, 20);
             this.gantt_chart.TabIndex = 0;
-            this.gantt_chart.TextChanged += new System.EventHandler(this.gantt_chart_TextChanged);
             // 
             // fcfs
             // 
@@ -453,22 +448,21 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(580, 557);
+            this.ClientSize = new System.Drawing.Size(580, 623);
             this.Controls.Add(this.done1);
             this.Controls.Add(this.subtype);
             this.Controls.Add(this.type);
-            this.Controls.Add(this.groupBox5);
+            this.Controls.Add(this.result);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.info);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.info.ResumeLayout(false);
             this.info.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
+            this.result.ResumeLayout(false);
+            this.result.PerformLayout();
             this.type.ResumeLayout(false);
             this.type.PerformLayout();
             this.subtype.ResumeLayout(false);
@@ -495,9 +489,8 @@
         private System.Windows.Forms.Label burst_time;
         private System.Windows.Forms.Label arrive_time;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Button stop;
         private System.Windows.Forms.Button start;
-        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.GroupBox result;
         private System.Windows.Forms.RadioButton fcfs;
         private System.Windows.Forms.GroupBox type;
         private System.Windows.Forms.GroupBox subtype;
@@ -518,6 +511,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button done1;
+        private System.Windows.Forms.Label label5;
     }
 }
 
