@@ -1,1 +1,2 @@
 c:\users\mona__000\documents\visual studio 2012\Projects\os project\os project\bin\Debug\os project.exe.config
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project ours2\os project\bin\Debug\os project.exe.config

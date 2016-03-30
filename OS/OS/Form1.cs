@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+
 namespace OS
 {
     public partial class Form1 : Form
@@ -15,12 +16,16 @@ namespace OS
         Processes processes;
         int i;
         State form_state;
+        List<Label> gantt_labels;
+        private int result_width ;
 
         public Form1()
         {
             InitializeComponent();
             processes = new Processes();
             i = 0;
+            gantt_labels = new List<Label>();
+            result_width =  (int)(result.Width * 0.95);
         }
 
 
@@ -70,9 +75,8 @@ namespace OS
             return min_interval;
         }
 
-        private void put_process(gant_info info, Label process, Label time,int current_time , int next_time, int i, int points_per_timeunit)
+        private void put_process(gant_info info,int i , Label process,int offset)
         {
-            int wid = (next_time - current_time) * points_per_timeunit;
             if (info.index[i] == -2)
             {
                 process.Text = " ";
@@ -82,88 +86,105 @@ namespace OS
                 process.Text = processes.all[info.index[i]].get_name();
                 process.AutoSize = true;
                 string name = process.Text;
-                if (process.Size.Width > wid)
+                if (process.Size.Width > offset)
                 {
-                    for (int j = name.Length; (j > 2) && (process.Size.Width > wid); j--)
+                    for (int j = name.Length; (j > 2) && (process.Size.Width > offset); j--)
                     {
                         process.Text = name.Substring(0, j) + "..";
                     }
                 }
             }
             process.AutoSize = false;
-            process.Size = new Size(wid, 20);
+            process.Size = new Size(offset, 20);
             process.BringToFront();
         }
-        private void draw(gant_info info,int points_per_timeunit,bool double_lines = false)
+
+        public void setup_index_time_labels(Label process, Label time, Point location = new Point() ,int offset = 0, int row = 1 )
         {
+            result.Controls.Add(time);
+            result.Controls.Add(process);
+            gantt_labels.Add(time);
+            gantt_labels.Add(process);
+
             int x_pos = 0;
-            int y_pos = 47;
-            Point names_point = new Point(x_pos, y_pos); //start points
-            Point times_point = new Point(0, y_pos + 20);
-            Label process = new Label();
-            Label time = new Label();
+            int y_pos = 50;
+            Point names_point;
+            Point times_point;
+            if (offset == -1) //indicates new row
+            {
+                names_point = new Point(x_pos, y_pos * row); //start points
+                times_point = new Point(x_pos, y_pos * row + 20);
+            }
+            else
+            {
+                names_point = location;
+                times_point = location;
+                names_point.Offset(offset, 0);
+                times_point.Offset(offset, 20);
+            }
             process.BorderStyle = BorderStyle.FixedSingle;
             process.TextAlign = ContentAlignment.MiddleCenter;
             process.BringToFront();
+            time.AutoSize = true;
             time.BringToFront();
             process.Location = names_point;
             time.Location = times_point;
-            int middle_time = info.time[info.time.Count - 1] / 2; //if 2 rows
+        }
+        private void draw(gant_info info,int points_per_timeunit,bool double_lines = false)
+        {
+            int width = 0, offset= width;
+            int row = 1;
+            bool new_row = true;
+            bool first_element_new_row = false;
+            Point location = new Point();
             for (int i = 0; i < info.index.Count; i++)
             {
+                Label process = new Label();
+                Label time = new Label();
+                setup_index_time_labels(process, time, location, new_row ? -1 : width, row);
                 time.Text = info.time[i].ToString();
-                time.AutoSize = true;
-                result.Controls.Add(time);
-                time.BringToFront();
                 if (info.index[i] != -1)
                 {
-                    result.Controls.Add(process);
-                    if (info.time[i + 1] < middle_time || double_lines == false)
+                    int next_time = info.time[i + 1];
+                    int current_time = info.time[i];
+                    width = (next_time - current_time)* points_per_timeunit;
+                    Point check_validity = new Point(process.Location.X + width, process.Location.Y);
+                    if (new_row == true && first_element_new_row == true)
                     {
-                        int next_time = info.time[i + 1];
-                        int current_time = info.time[i];
-                        put_process(info, process, time,current_time, next_time, i, points_per_timeunit);
+                        put_process(info, i, process, width);
+                        new_row = false;
+                        first_element_new_row = false;
+                    }
+                    else if (check_validity.X < result_width || double_lines == false)
+                    {
+                        offset = width;
+                        put_process(info, i, process, width);
+                        new_row = false;
+                        first_element_new_row = false;
                     }
                     else
                     {
-                        int next_time = middle_time;
-                        int current_time = info.time[i];
-                        put_process(info, process, time,current_time, next_time, i, points_per_timeunit);
-                        //add the middle time to the end of the first row
-                        times_point.Offset(process.Width, 0);
+                        offset =(int)( result_width  - process.Location.X);
+                        put_process(info,i, process, offset);
+                        new_row = true;
+                        info.time[i] = (offset / points_per_timeunit) + info.time[i];
+                        Label unnecessary = new Label();
                         time = new Label();
-                        time.Location = times_point;
-                        time.Text = middle_time.ToString();
-                        time.AutoSize = true;
-                        result.Controls.Add(time);
-                        time.BringToFront();
-                        //add the middle time to the beggining of the second row and continue the process
-                        names_point = new Point(x_pos, y_pos+2*20);//to be below the times labels of the first row
-                        times_point = new Point(x_pos, y_pos +3*20);//to be below both the time labels of the first row and the names labels of the second row
-                        process = new Label();
-                        time = new Label();
-                        process.BorderStyle = BorderStyle.FixedSingle;
-                        process.TextAlign = ContentAlignment.MiddleCenter;
-                        process.Location = names_point;
-                        time.Location = times_point;
-                        time.Text = middle_time.ToString();
-                        time.AutoSize = true;
-                        result.Controls.Add(time);
-                        time.BringToFront();
-                        result.Controls.Add(process);
-                        next_time = info.time[i + 1];
-                        current_time = middle_time;
-                        put_process(info, process, time, current_time,next_time, i, points_per_timeunit);
-                        middle_time = -1;// so it never excute this section again
+                        location = process.Location;
+                        setup_index_time_labels(unnecessary, time, location, offset, row);
+                        unnecessary.Visible = false;
+                        time.Text = info.time[i].ToString();
+                        offset = width;
+                        i--;
+                        row++;
+                        first_element_new_row = true;
                     }
-                    names_point.Offset(process.Width, 0);
-                    times_point.Offset(process.Width, 0);
-                    process = new Label();
-                    time = new Label();
-                    process.BorderStyle = BorderStyle.FixedSingle;
-                    process.TextAlign = ContentAlignment.MiddleCenter;
-                    process.Location = names_point;
-                    time.Location = times_point;
+                    width = process.Width;
+                    location = process.Location;
+                }
+                else
+                {
+                    process.Visible = false;
                 }
             }
         }
@@ -174,7 +195,7 @@ namespace OS
             result.Controls.Add(ref_label); // to add to the groupbox result
             ref_label.AutoSize = true; //reference label
             ref_label.Visible = false;
-            int points_per_timeunit = (result.Width)  /  info.time[info.time.Count - 1];
+            int points_per_timeunit = (result_width)  /  info.time[info.time.Count - 1];
             int min_width = get_min_interval(info) * points_per_timeunit;
             if( min_width > ref_label.Width)
             {
@@ -318,9 +339,8 @@ namespace OS
                 {
                     info = processes.start_excution(Method.RR, Int32.Parse(q.Text));
                 }
-                draw_chart(info);
                 average_wait(info);
-
+                draw_chart_alternative(info);
             }
             else
             {
@@ -331,6 +351,15 @@ namespace OS
 
         }
 
+        private void erase_gantt_chart()
+        {
+            while (gantt_labels.Count > 0)
+            {
+                result.Controls.Remove(gantt_labels[0]);
+                gantt_labels.Remove(gantt_labels[0]);
+            }
+
+        }
         private void set_state(State state)
         {
             bool type_part = false, add_part = false, start_part = false;
@@ -370,8 +399,9 @@ namespace OS
             }
             if (add_part | type_part)
             {
-                gantt_chart.Text = "";
-                textBox2.Text = "";
+                //gantt_chart.Text = "";
+                //textBox2.Text = "";
+                erase_gantt_chart();
                 equations.Text = "";
                 
             }

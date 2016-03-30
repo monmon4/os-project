@@ -37,16 +37,16 @@
             this.preem = new System.Windows.Forms.RadioButton();
             this.info = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.warning = new System.Windows.Forms.Label();
             this.prio = new System.Windows.Forms.TextBox();
-            this.q = new System.Windows.Forms.TextBox();
             this.burst = new System.Windows.Forms.TextBox();
             this.arrive = new System.Windows.Forms.TextBox();
             this.prior = new System.Windows.Forms.Label();
             this.proocess = new System.Windows.Forms.Label();
             this.burst_time = new System.Windows.Forms.Label();
             this.arrive_time = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.q = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -176,15 +176,6 @@
             this.label5.Size = new System.Drawing.Size(0, 13);
             this.label5.TabIndex = 17;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(427, 42);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 13);
-            this.label1.TabIndex = 16;
-            this.label1.Text = "Quantam";
-            // 
             // warning
             // 
             this.warning.AutoSize = true;
@@ -199,13 +190,6 @@
             this.prio.Name = "prio";
             this.prio.Size = new System.Drawing.Size(57, 20);
             this.prio.TabIndex = 12;
-            // 
-            // q
-            // 
-            this.q.Location = new System.Drawing.Point(430, 58);
-            this.q.Name = "q";
-            this.q.Size = new System.Drawing.Size(60, 20);
-            this.q.TabIndex = 15;
             // 
             // burst
             // 
@@ -256,6 +240,22 @@
             this.arrive_time.Size = new System.Drawing.Size(61, 13);
             this.arrive_time.TabIndex = 7;
             this.arrive_time.Text = "Arrival time";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(427, 42);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(51, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "Quantam";
+            // 
+            // q
+            // 
+            this.q.Location = new System.Drawing.Point(430, 58);
+            this.q.Name = "q";
+            this.q.Size = new System.Drawing.Size(60, 20);
+            this.q.TabIndex = 15;
             // 
             // groupBox4
             // 
@@ -371,9 +371,9 @@
             this.equations.BackColor = System.Drawing.SystemColors.Control;
             this.equations.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.equations.Enabled = false;
-            this.equations.Location = new System.Drawing.Point(129, 171);
+            this.equations.Location = new System.Drawing.Point(153, 171);
             this.equations.Name = "equations";
-            this.equations.Size = new System.Drawing.Size(278, 13);
+            this.equations.Size = new System.Drawing.Size(116, 13);
             this.equations.TabIndex = 2;
             // 
             // textBox2
@@ -385,6 +385,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(504, 13);
             this.textBox2.TabIndex = 1;
+            this.textBox2.Visible = false;
             // 
             // gantt_chart
             // 
@@ -396,6 +397,7 @@
             this.gantt_chart.Name = "gantt_chart";
             this.gantt_chart.Size = new System.Drawing.Size(504, 20);
             this.gantt_chart.TabIndex = 0;
+            this.gantt_chart.Visible = false;
             // 
             // fcfs
             // 

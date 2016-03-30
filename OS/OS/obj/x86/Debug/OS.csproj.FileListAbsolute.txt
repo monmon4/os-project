@@ -30,3 +30,11 @@ C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project o
 C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project ours\OS\OS\obj\x86\Debug\OS.Form1.resources
 C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project ours\OS\OS\obj\x86\Debug\OS.Properties.Resources.resources
 C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project ours\OS\OS\obj\x86\Debug\OS.csproj.GenerateResource.Cache
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project ours2\OS\OS\obj\x86\Debug\OS.exe
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project ours2\OS\OS\obj\x86\Debug\OS.pdb
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project ours2\OS\OS\bin\Debug\OS.exe
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project ours2\OS\OS\bin\Debug\OS.pdb
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project ours2\OS\OS\obj\x86\Debug\OS.csprojResolveAssemblyReference.cache
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project ours2\OS\OS\obj\x86\Debug\OS.Form1.resources
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project ours2\OS\OS\obj\x86\Debug\OS.Properties.Resources.resources
+C:\Users\mona__000\Documents\Visual Studio 2012\Projects\New folder\os-project ours2\OS\OS\obj\x86\Debug\OS.csproj.GenerateResource.Cache
