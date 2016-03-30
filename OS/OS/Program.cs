@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-class gant_info
+class gant_info //type to hold the index and the start time of each process
 {
     public List<int> index ;
     public List<int> time  ;
@@ -13,14 +13,14 @@ class gant_info
     }
 }
 
-enum Method { FCFS, SJF, SRJF, PRP, PRN, RR };
+enum Method { FCFS, SJF, SRJF, PRP, PRN, RR }; //defining scheduling types
 namespace OS
 {
     
-    class Process
+    class Process //hold the process information
     {
-        string name;
-        int arrive;
+        string name;//the name of the process
+        int arrive;//the arriving time of the process
         int burst;
         int remaining;
         int prio;
@@ -30,26 +30,26 @@ namespace OS
             set_info("", 0, 0, 0);
         }
 
-        public Process(string n, int a, int b, int p)
+        public Process(string n, int a, int b, int p) //with priority
         {
             set_info(n, a, b, p);
         }
 
-        public Process(string n, int a, int b)
+        public Process(string n, int a, int b) //without priority 
         {
-            set_info1(n, a, b);
+            set_info(n, a, b);
         }
 
-        public void set_info1(string n, int a, int b)
+        public void set_info(string n, int a, int b) //without priority
         {
             name = n;
             arrive = a;
             burst = b;
             remaining = burst;
         }
-        
 
-        public void set_info(string n, int a, int b, int p)
+
+        public void set_info(string n, int a, int b, int p) //with priority
         {
             name = n;
             arrive = a;
@@ -108,26 +108,17 @@ namespace OS
             remaining = burst;
         }
 
-        public string get_info()
-        {
-            return name + " " + arrive.ToString() + " " + burst.ToString() + " " + prio.ToString();
-        }
-
-        public string get_info1()
-        {
-            return name + " " + arrive.ToString() + " " + burst.ToString();
-        }
-        
+       
     }
 
     //-----------------------------------------------------------------
 
-    class Processes
+    class Processes //hold all the processes
     {
         public List<Process> all; // contains all the processes
         List<int> index_list;
         List<int> time_list;
-        List<int> sorted_arrive; // for process sorted by they arrival time
+        List<int> sorted_arrive; // holds indexes for processes sorted by they arrival time
         int s;
         
 
@@ -150,7 +141,7 @@ namespace OS
             return all[i];
         }
 
-        public void reset()
+        public void reset() //resets all the lists of this class
         {
             index_list = new List<int>();
             time_list = new List<int>();
@@ -181,7 +172,7 @@ namespace OS
             }
         }
 
-        private int get_least(int time, Method method = Method.SJF) //to get least remaining time
+        private int get_least(int time, Method method = Method.SJF) //to get least time
         {
             int index = -1; // indicates the end
             for (int i = 0; i < all.Count(); i++)
@@ -201,7 +192,7 @@ namespace OS
             return index;
         }
 
-        public int get_next_time(int time) // to get the arrival time of the next process
+        public int get_next_time(int time) // to get the arrival time of the next process of preemtive scheduling
         {
             int index = 0;
             for (int i = 0; i < all.Count(); i++)
@@ -213,7 +204,7 @@ namespace OS
         }
 
 
-        private int get_next(int time) // to get the index of the next process
+        private int get_next(int time) // to get the index of the next process of FCFS&RR
         {
             if (s!=0 && all[sorted_arrive[s-1]].get_remaining() == 0)
             {
@@ -221,14 +212,14 @@ namespace OS
                 s--;
             }
             if (s == sorted_arrive.Count()) s = 0;
-            if (sorted_arrive.Count() == 0) return -1;
+            if (sorted_arrive.Count() == 0) return -1;//-1 indicates the end
             else if (all[sorted_arrive[s]].get_arrive() <= time)
             {
                 s++;
                 return sorted_arrive[s - 1];
             }
 
-            else if (s == 0) return -2;
+            else if (s == 0) return -2; //-2 indicates a gap
             else
             {
                 s = 1;
@@ -236,7 +227,7 @@ namespace OS
             }          
         }
 
-        public gant_info start_excution(Method method = Method.FCFS, int q = -1)
+        public gant_info start_excution(Method method = Method.FCFS, int q = -1) //execution of all scheduling be arranging the processes
         {
             sort();
             int index = 0;
@@ -244,12 +235,17 @@ namespace OS
             int next_time = 0;
             while (true)
             {
-                if (time == next_time && (method == Method.SRJF || method == Method.PRP))
+                //preemtives 
+                if (time == next_time && (method == Method.SRJF || method == Method.PRP)) 
                     next_time = get_next_time(time);
+                //---
+                //get the index
                 if (method == Method.FCFS || method == Method.RR)
                     index = get_next(time);
                 else
                     index = get_least(time,method);
+                //---
+                //to fix the times
                 time_list.Add(time);
                 if (index == -2)
                 {
@@ -270,6 +266,7 @@ namespace OS
                     int x = all[index].excute(q);
                     time = x < 0 ? time + q + x : time + q;
                 }
+                //----
             }
             gant_info info = new gant_info();
             info.index = index_list;

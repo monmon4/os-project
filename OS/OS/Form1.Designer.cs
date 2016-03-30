@@ -130,10 +130,12 @@
             // nonpreem
             // 
             this.nonpreem.AutoSize = true;
+            this.nonpreem.Checked = true;
             this.nonpreem.Location = new System.Drawing.Point(6, 51);
             this.nonpreem.Name = "nonpreem";
             this.nonpreem.Size = new System.Drawing.Size(97, 17);
             this.nonpreem.TabIndex = 12;
+            this.nonpreem.TabStop = true;
             this.nonpreem.Text = "nonPreemptive";
             this.nonpreem.UseVisualStyleBackColor = true;
             // 

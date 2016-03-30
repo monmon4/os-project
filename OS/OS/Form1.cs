@@ -12,7 +12,12 @@ namespace OS
 {
     public partial class Form1 : Form
     {
+        /* defines three states of using the program 
+         ProcessType: choosing type of scheduling, 
+         ProcessAdd: adding more processes,
+         ProcessFinish: program has finished and displays the results*/
         enum State { ProcessType, ProcessAdd, ProcessFinish };
+
         Processes processes;
         int i;
         State form_state;
@@ -29,7 +34,7 @@ namespace OS
         }
 
 
-        private void draw_chart(gant_info info)
+        private void draw_chart(gant_info info)//old way to draw gantt_chart
         {
             int time = 0;
             for (int i = 0; i < info.index.Count(); i++)
@@ -64,7 +69,8 @@ namespace OS
             }
         }
 
-        private int get_min_interval(gant_info info)
+        // the used gantt chart//
+        private int get_min_interval(gant_info info) // return the least time a process is executed
         {
             int min_interval = 2^30 ;//very big interval
             for (int i = 0; i < info.index.Count-1; i++)
@@ -75,9 +81,9 @@ namespace OS
             return min_interval;
         }
 
-        private void put_process(gant_info info,int i , Label process,int offset)
+        private void put_process(gant_info info,int i , Label process,int offset) //modify the name and the size of a process in the gantt chart
         {
-            if (info.index[i] == -2)
+            if (info.index[i] == -2)//indicates a gap
             {
                 process.Text = " ";
             }
@@ -86,7 +92,8 @@ namespace OS
                 process.Text = processes.all[info.index[i]].get_name();
                 process.AutoSize = true;
                 string name = process.Text;
-                if (process.Size.Width > offset)
+
+                if (process.Size.Width > offset)//if the process name is larger than its size
                 {
                     for (int j = name.Length; (j > 2) && (process.Size.Width > offset); j--)
                     {
@@ -99,6 +106,7 @@ namespace OS
             process.BringToFront();
         }
 
+        //styling the process name and time and set their location at the gantt chart
         public void setup_index_time_labels(Label process, Label time, Point location = new Point() ,int offset = 0, int row = 1 )
         {
             result.Controls.Add(time);
@@ -130,6 +138,8 @@ namespace OS
             process.Location = names_point;
             time.Location = times_point;
         }
+
+        //the new gantt chart
         private void draw(gant_info info,int points_per_timeunit,bool double_lines = false)
         {
             int width = 0, offset= width;
@@ -188,7 +198,7 @@ namespace OS
                 }
             }
         }
-        private void draw_chart_alternative(gant_info info)
+        private void draw_chart_alternative(gant_info info)//to determine how many raws will be drawn(1 or 2)
         {
             Label ref_label = new Label(); // for calculation only used once
             ref_label.Text = "MM.."; 
@@ -207,6 +217,7 @@ namespace OS
             }
 
         }
+        //-----------------------------------------------------------
 
         private void sjf_CheckedChanged(object sender, EventArgs e)
         {
@@ -287,7 +298,7 @@ namespace OS
 
         }
         
-
+        //calculations of average waiting time
         private float wait(gant_info info) // to get the whole waiting time
         {
             int index = 0, total_time = 0;
@@ -305,6 +316,7 @@ namespace OS
             float total_waiting = wait(info);
             equations.Text = (total_waiting / processes.all.Count()).ToString();
         }
+        //------------------------------
 
         private void start_Click(object sender, EventArgs e)
         {
